@@ -12,7 +12,7 @@ part 'splash_state.dart';
 class SplashCubit extends Cubit<SplashState> {
   SplashCubit() : super(const SplashInitial());
 
-  static const Duration hold = Duration(minutes: 10);
+  static const Duration hold = Duration(seconds: 10);
 
   Timer? _timer;
 

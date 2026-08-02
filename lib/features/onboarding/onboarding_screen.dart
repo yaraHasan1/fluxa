@@ -53,7 +53,7 @@ class OnboardingScreen extends StatelessWidget {
                         blur: artWidth * 0.022,
                         offset: Offset(0, artWidth * 0.006),
                         child: SvgPicture.asset(
-                          AppAssets.splashArt,
+                          AppAssets.FluxabIG,
                           width: artWidth,
                           fit: BoxFit.contain,
                           semanticsLabel: AppStrings.semanticsLogo,

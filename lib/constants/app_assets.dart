@@ -9,6 +9,9 @@ abstract final class AppAssets {
   /// Use when a static, non-animated logo is required.
   static const String robotFull = '$_svg/fluxa_robot.svg';
 
+  /// A wide mascot export used on social and onboarding screens.
+  static const String FluxabIG = '$_svg/FLUXABIG.svg';
+
   /// The full splash centrepiece (313×372): mascot, antenna waves, the floating
   /// power button and the swooping cable tail, composed as one group.
   ///
