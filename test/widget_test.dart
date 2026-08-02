@@ -20,6 +20,6 @@ void main() {
     await tester.pump(const Duration(seconds: 3));
     await tester.pumpAndSettle();
 
-    expect(find.text('Onboarding'), findsOneWidget);
+    expect(find.text(AppStrings.welcomeTitle), findsOneWidget);
   });
 }

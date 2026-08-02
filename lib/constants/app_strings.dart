@@ -9,4 +9,10 @@ abstract final class AppStrings {
   static const String taglineAccent = 'Flow';
 
   static const String semanticsLogo = 'Fluxa mascot';
+
+  // --- Onboarding --------------------------------------------------------
+  static const String welcomeTitle = 'Welcome';
+  static const String welcomeBody =
+      'Built to make energy management effortless, intuitive and smart';
+  static const String next = 'next';
 }

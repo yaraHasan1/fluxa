@@ -32,6 +32,30 @@ abstract final class AppTextStyles {
     height: 1.2,
   );
 
+  /// Screen titles — "Welcome", "LOGIN", "Sign Up", "settings".
+  static const TextStyle heading = TextStyle(
+    fontWeight: FontWeight.w700,
+    color: AppColors.ink,
+    letterSpacing: 0.2,
+    height: 1.1,
+  );
+
+  /// Supporting copy under a heading. Centred, brand teal, generous leading.
+  static const TextStyle subtitle = TextStyle(
+    fontWeight: FontWeight.w600,
+    color: AppColors.teal,
+    letterSpacing: 0.1,
+    height: 1.45,
+  );
+
+  /// Label inside a filled pill action.
+  static const TextStyle button = TextStyle(
+    fontWeight: FontWeight.w600,
+    color: Colors.white,
+    letterSpacing: 0.3,
+    height: 1.1,
+  );
+
   static const TextStyle bodyMedium = TextStyle(
     fontWeight: FontWeight.w400,
     color: AppColors.navy,
