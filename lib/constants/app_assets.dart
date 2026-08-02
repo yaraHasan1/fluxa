@@ -19,9 +19,23 @@ abstract final class AppAssets {
   /// [splashArt] in the stack.
   static const String splashSwoosh = '$_svg/splash_swoosh.svg';
 
+  /// The chest bolt, extracted from [splashArt] at the *same* 313×372 viewBox.
+  /// Laying it out over the art at equal width registers it exactly, with no
+  /// hand-tuned offset to drift when the art is re-exported.
+  static const String splashBolt = '$_svg/splash_bolt.svg';
+
   /// Three broadcast arcs radiating from a corner (170×167). Drawn once for
   /// the top-left and again, half-turned, for the bottom-right.
   static const String cornerArcs = '$_svg/corner_arcs.svg';
+
+  /// [cornerArcs] split into its three concentric arcs so they can be lit in
+  /// sequence. Ordered innermost → outermost; each keeps the full viewBox, so
+  /// stacking them reproduces [cornerArcs] exactly.
+  static const List<String> cornerArcLayers = <String>[
+    '$_svg/corner_arc_1.svg',
+    '$_svg/corner_arc_2.svg',
+    '$_svg/corner_arc_3.svg',
+  ];
 
   // --- Animatable layers -----------------------------------------------
   // Every layer below shares the source `viewBox="0 0 231 358"`, so stacking

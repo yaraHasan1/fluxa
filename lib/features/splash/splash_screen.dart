@@ -4,17 +4,24 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:fluxa/components/corner_arcs.dart';
+import 'package:fluxa/components/draw_on_reveal.dart';
 import 'package:fluxa/components/gradient_background.dart';
 import 'package:fluxa/components/soft_shadow.dart';
 import 'package:fluxa/constants/app_assets.dart';
 import 'package:fluxa/constants/app_strings.dart';
 import 'package:fluxa/features/splash/cubit/splash_cubit.dart';
+import 'package:fluxa/features/splash/widgets/bolt_glow.dart';
 import 'package:fluxa/routes/app_routes.dart';
 import 'package:fluxa/theme/app_text_styles.dart';
 import 'package:fluxa/utils/responsive_extension.dart';
 
 /// Intrinsic aspect ratio of [AppAssets.splashArt] (313 × 372).
 const double _artAspect = 313 / 372;
+
+/// Swoosh choreography. The draw starts once the frame has settled and
+/// finishes well inside [SplashCubit.hold], so it is never cut off mid-line.
+const Duration _swooshDelay = Duration(milliseconds: 260);
+const Duration _swooshDraw = Duration(milliseconds: 1100);
 
 /// The brand frame: corner arcs, the mascot group, and the wordmark lockup.
 ///
@@ -98,15 +105,20 @@ class _SplashContent extends StatelessWidget {
 
         return Stack(
           children: <Widget>[
-            // Cable tail, behind the mascot and reaching wider than it.
+            // Cable tail, behind the mascot and reaching wider than it. It
+            // draws itself in from the left as the screen settles.
             Positioned(
               left: (width - swooshWidth) / 2,
               top: artTop + artHeight * 0.60,
               width: swooshWidth,
-              child: SvgPicture.asset(
-                AppAssets.splashSwoosh,
-                width: swooshWidth,
-                fit: BoxFit.contain,
+              child: DrawOnReveal(
+                duration: _swooshDraw,
+                delay: _swooshDelay,
+                child: SvgPicture.asset(
+                  AppAssets.splashSwoosh,
+                  width: swooshWidth,
+                  fit: BoxFit.contain,
+                ),
               ),
             ),
 
@@ -125,6 +137,15 @@ class _SplashContent extends StatelessWidget {
                   semanticsLabel: AppStrings.semanticsLogo,
                 ),
               ),
+            ),
+
+            // Chest bolt. Shares the art's box and width, so the extracted
+            // bolt lands exactly over the one already in the artwork.
+            Positioned(
+              left: (width - artWidth) / 2,
+              top: artTop,
+              width: artWidth,
+              child: BoltGlow(width: artWidth),
             ),
 
             // Wordmark lockup, anchored to the lower left.
