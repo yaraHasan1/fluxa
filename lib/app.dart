@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'core/constants/app_strings.dart';
-import 'core/routing/app_router.dart';
-import 'core/theme/app_theme.dart';
+import 'package:fluxa/constants/app_strings.dart';
+import 'package:fluxa/routes/app_router.dart';
+import 'package:fluxa/theme/app_theme.dart';
 
 /// Root widget.
 ///
