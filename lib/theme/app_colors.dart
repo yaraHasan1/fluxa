@@ -17,6 +17,10 @@ abstract final class AppColors {
   // --- Navy (face screen, chest disc) -----------------------------------
   static const Color navy = Color(0xFF182941);
 
+  /// Screen headings — the near-black in the design carries a green cast
+  /// rather than the blue one [navy] has.
+  static const Color ink = Color(0xFF163740);
+
   // --- Shell greys (robot chassis) --------------------------------------
   static const Color shellLight = Color(0xFFDBE1EA);
   static const Color shell = Color(0xFFCDD5E0);
