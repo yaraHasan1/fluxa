@@ -121,7 +121,7 @@ class _SplashContent extends StatelessWidget {
               top: artTop,
               width: artWidth,
               child: SoftShadow(
-                blur: artWidth * 0.05,
+                blur: artWidth * 0.07,
                 offset: Offset(0, artWidth * 0.012),
                 child: SvgPicture.asset(
                   AppAssets.splashArt,
