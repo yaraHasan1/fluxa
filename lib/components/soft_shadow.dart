@@ -2,22 +2,25 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 
-/// Casts a soft drop shadow behind an arbitrary child silhouette.
+/// Casts a soft glow behind an arbitrary child silhouette.
 ///
-/// The Figma artwork carries its depth in twelve `<filter>` drop shadows, and
+/// The Figma artwork carries its depth in `<filter>` drop shadows, and
 /// `flutter_svg` discards every one of them — which leaves the mascot's
 /// near-white chassis with no edge against the pale background. Painting the
 /// child once as a blurred, offset silhouette restores that separation.
 ///
-/// This recovers the *outer* shadow only. Per-part shadows inside the artwork
-/// are still absent; a raster export is the way to get those.
+/// The default colour is [AppColors.glow], the mint the design's own filters
+/// are tinted with; this reads as a halo rather than a grey shadow.
+///
+/// Recovers the *outer* shadow only. Per-part shadows inside the artwork are
+/// still absent; a raster export is the way to get those.
 class SoftShadow extends StatelessWidget {
   const SoftShadow({
     super.key,
     required this.child,
-    this.color = const Color(0x33101F33),
+    this.color = const Color(0x8074B9AA),
     this.blur = 12,
-    this.offset = const Offset(0, 8),
+    this.offset = const Offset(0, 4),
   });
 
   final Widget child;

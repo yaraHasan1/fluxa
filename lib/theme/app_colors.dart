@@ -23,6 +23,11 @@ abstract final class AppColors {
   static const Color shellMid = Color(0xFFA4B2C3);
   static const Color shellDark = Color(0xFF8498A5);
 
+  /// The colour every drop shadow in the artwork is tinted with — the Figma
+  /// filters all carry `0.454424, 0.725962, 0.666717`. The depth in this design
+  /// is a soft mint glow, not a grey shadow.
+  static const Color glow = Color(0xFF74B9AA);
+
   // --- Surfaces ----------------------------------------------------------
   static const Color backgroundTop = Color(0xFFE3ECF1);
   static const Color backgroundBottom = Color(0xFFD3E0E7);
@@ -32,13 +37,5 @@ abstract final class AppColors {
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
     colors: <Color>[backgroundTop, backgroundBottom],
-  );
-
-  /// Mint→teal sweep used by the decorative corner arcs.
-  static const LinearGradient arcGradient = LinearGradient(
-    begin: Alignment.topLeft,
-    end: Alignment.bottomRight,
-    colors: <Color>[mintLight, mintDeep, teal],
-    stops: <double>[0.0, 0.55, 1.0],
   );
 }

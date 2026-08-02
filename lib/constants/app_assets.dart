@@ -15,6 +15,14 @@ abstract final class AppAssets {
   /// Wider than [robotFull], which is the mascot alone.
   static const String splashArt = '$_svg/splash_art.svg';
 
+  /// The cable tail that sweeps beneath the mascot (342×191). Sits *under*
+  /// [splashArt] in the stack.
+  static const String splashSwoosh = '$_svg/splash_swoosh.svg';
+
+  /// Three broadcast arcs radiating from a corner (170×167). Drawn once for
+  /// the top-left and again, half-turned, for the bottom-right.
+  static const String cornerArcs = '$_svg/corner_arcs.svg';
+
   // --- Animatable layers -----------------------------------------------
   // Every layer below shares the source `viewBox="0 0 231 358"`, so stacking
   // them in an equally sized box reproduces the original artwork exactly
