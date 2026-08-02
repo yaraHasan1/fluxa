@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluxa/theme/app_colors.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:fluxa/components/corner_arcs.dart';
@@ -47,7 +48,7 @@ class _SplashView extends StatelessWidget {
     // outside the content column that constrains the lockup on tablets. The
     // 170×167 viewBox carries generous padding around the three arcs, so the
     // box is laid out wider than the artwork that shows.
-    final double arcSize = context.wp(0.46);
+    final double arcSize = context.wp(0.36);
 
     return Scaffold(
       body: GradientBackground(
@@ -92,7 +93,7 @@ class _SplashContent extends StatelessWidget {
         // the frame width, and the 313×372 viewBox carries margin around it.
         final double artWidth = width * 0.72;
         final double artHeight = artWidth / _artAspect;
-        final double artTop = height * 0.50 - artHeight / 2;
+        final double artTop = height * 0.44 - artHeight / 2;
 
         final double swooshWidth = width * 0.68;
 
@@ -101,12 +102,16 @@ class _SplashContent extends StatelessWidget {
             // Cable tail, behind the mascot and reaching wider than it.
             Positioned(
               left: (width - swooshWidth) / 2,
-              top: artTop + artHeight * 0.60,
+              top: artTop + artHeight * 0.65,
               width: swooshWidth,
-              child: SvgPicture.asset(
-                AppAssets.splashSwoosh,
-                width: swooshWidth,
-                fit: BoxFit.contain,
+              child: SoftShadow(
+                blur: swooshWidth * 0.05,
+                offset: Offset(0, swooshWidth * 0.012),
+                child: SvgPicture.asset(
+                  AppAssets.splashSwoosh,
+                  width: swooshWidth,
+                  fit: BoxFit.values[5],
+                ),
               ),
             ),
 
@@ -121,7 +126,7 @@ class _SplashContent extends StatelessWidget {
                 child: SvgPicture.asset(
                   AppAssets.splashArt,
                   width: artWidth,
-                  fit: BoxFit.contain,
+                  fit: BoxFit.values[4],
                   semanticsLabel: AppStrings.semanticsLogo,
                 ),
               ),
@@ -129,39 +134,86 @@ class _SplashContent extends StatelessWidget {
 
             // Wordmark lockup, anchored to the lower left.
             Positioned(
-              left: width * 0.077,
-              top: height * 0.678,
+              left: width * 0.067,
+              top: height * 0.63,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
+                mainAxisSize: MainAxisSize.max,
                 children: <Widget>[
-                  Text(
-                    AppStrings.appName,
-                    style: AppTextStyles.wordmark.copyWith(
-                      fontSize: context.sp(26),
-                    ),
+                  Stack(
+                    alignment: Alignment.centerLeft,
+                    children: <Widget>[
+                      Text(
+                        AppStrings.appName,
+                        style: AppTextStyles.wordmark.copyWith(
+                          fontSize: context.sp(40),
+                          foreground: Paint()
+                            ..style = PaintingStyle.stroke
+                            ..strokeWidth = 0.5
+                            ..color = AppColors.tealDark,
+                        ),
+                      ),
+                      Text(
+                        AppStrings.appName,
+                        style: AppTextStyles.wordmark.copyWith(
+                          fontSize: context.sp(39.9),
+                          color: AppColors.teal,
+                        ),
+                      ),
+                    ],
                   ),
                   SizedBox(height: height * 0.012),
                   Padding(
                     // The tagline is indented under the wordmark in the design.
-                    padding: EdgeInsets.only(left: width * 0.065),
-                    child: Text.rich(
-                      TextSpan(
-                        children: <InlineSpan>[
+                    padding: EdgeInsets.only(left: width * 0.165),
+                    child: Stack(
+                      alignment: Alignment.centerLeft,
+                      children: <Widget>[
+                        Text.rich(
                           TextSpan(
-                            text: AppStrings.taglineLead,
-                            style: AppTextStyles.tagline.copyWith(
-                              fontSize: context.sp(16),
-                            ),
+                            children: <InlineSpan>[
+                              TextSpan(
+                                text: AppStrings.taglineLead,
+                                style: AppTextStyles.tagline.copyWith(
+                                  fontSize: context.sp(16),
+                                  foreground: Paint()
+                                    ..style = PaintingStyle.stroke
+                                    ..strokeWidth = 0.4
+                                    ..color = AppColors.tealDark,
+                                ),
+                              ),
+                              TextSpan(
+                                text: AppStrings.taglineAccent,
+                                style: AppTextStyles.taglineAccent.copyWith(
+                                  fontSize: context.sp(15.9),
+                                  foreground: Paint()
+                                    ..style = PaintingStyle.stroke
+                                    ..strokeWidth = 0.4
+                                    ..color = AppColors.tealDark,
+                                ),
+                              ),
+                            ],
                           ),
+                        ),
+                        Text.rich(
                           TextSpan(
-                            text: AppStrings.taglineAccent,
-                            style: AppTextStyles.taglineAccent.copyWith(
-                              fontSize: context.sp(16),
-                            ),
+                            children: <InlineSpan>[
+                              TextSpan(
+                                text: AppStrings.taglineLead,
+                                style: AppTextStyles.tagline.copyWith(
+                                  fontSize: context.sp(16),
+                                ),
+                              ),
+                              TextSpan(
+                                text: AppStrings.taglineAccent,
+                                style: AppTextStyles.taglineAccent.copyWith(
+                                  fontSize: context.sp(15.9),
+                                ),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
