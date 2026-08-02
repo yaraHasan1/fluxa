@@ -44,8 +44,10 @@ class _SplashView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // The arcs bleed off two corners of the physical screen, so they sit
-    // outside the content column that constrains the lockup on tablets.
-    final double arcSize = context.wp(0.28);
+    // outside the content column that constrains the lockup on tablets. The
+    // 170×167 viewBox carries generous padding around the three arcs, so the
+    // box is laid out wider than the artwork that shows.
+    final double arcSize = context.wp(0.46);
 
     return Scaffold(
       body: GradientBackground(
@@ -89,17 +91,33 @@ class _SplashContent extends StatelessWidget {
         // Fractions read off the design frame: the mascot group spans ~60% of
         // the frame width, and the 313×372 viewBox carries margin around it.
         final double artWidth = width * 0.72;
+        final double artHeight = artWidth / _artAspect;
+        final double artTop = height * 0.50 - artHeight / 2;
+
+        final double swooshWidth = width * 0.68;
 
         return Stack(
           children: <Widget>[
+            // Cable tail, behind the mascot and reaching wider than it.
+            Positioned(
+              left: (width - swooshWidth) / 2,
+              top: artTop + artHeight * 0.60,
+              width: swooshWidth,
+              child: SvgPicture.asset(
+                AppAssets.splashSwoosh,
+                width: swooshWidth,
+                fit: BoxFit.contain,
+              ),
+            ),
+
             // Mascot group, centred just above the vertical midpoint.
             Positioned(
               left: (width - artWidth) / 2,
-              top: height * 0.50 - (artWidth / _artAspect) / 2,
+              top: artTop,
               width: artWidth,
               child: SoftShadow(
-                blur: artWidth * 0.035,
-                offset: Offset(0, artWidth * 0.03),
+                blur: artWidth * 0.05,
+                offset: Offset(0, artWidth * 0.012),
                 child: SvgPicture.asset(
                   AppAssets.splashArt,
                   width: artWidth,

@@ -15,10 +15,16 @@ void main() {
     addTearDown(tester.view.reset);
 
     await tester.runAsync(() async {
-      await svg.cache.putIfAbsent(
-        SvgAssetLoader(AppAssets.splashArt).cacheKey(null),
-        () => const SvgAssetLoader(AppAssets.splashArt).loadBytes(null),
-      );
+      for (final String p in <String>[
+        AppAssets.splashArt,
+        AppAssets.splashSwoosh,
+        AppAssets.cornerArcs,
+      ]) {
+        await svg.cache.putIfAbsent(
+          SvgAssetLoader(p).cacheKey(null),
+          () => SvgAssetLoader(p).loadBytes(null),
+        );
+      }
     });
 
     await tester.pumpWidget(
