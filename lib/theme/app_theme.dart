@@ -20,6 +20,7 @@ abstract final class AppTheme {
 
     return ThemeData(
       useMaterial3: true,
+      fontFamily: 'Sirin Stencil',
       colorScheme: scheme,
       scaffoldBackgroundColor: AppColors.backgroundTop,
       textTheme: const TextTheme(

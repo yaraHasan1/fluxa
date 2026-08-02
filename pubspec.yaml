@@ -40,3 +40,11 @@ flutter:
 
   assets:
     - assets/svg/
+
+  fonts:
+    - family: 'Sirin Stencil'
+      fonts:
+        - asset: assets/font/SirinStencil-Regular.ttf
+          weight: 400
+        # - asset: assets/font/SirinStencil-Bold.ttf
+        #   weight: 700

@@ -10,6 +10,7 @@ import 'package:fluxa/theme/app_colors.dart';
 abstract final class AppTextStyles {
   /// The FLUXA wordmark — heavy, widely tracked, brand teal.
   static const TextStyle wordmark = TextStyle(
+    fontFamily: 'Sirin Stencil',
     fontWeight: FontWeight.w800,
     color: AppColors.teal,
     letterSpacing: 1.6,
