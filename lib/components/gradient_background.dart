@@ -12,7 +12,10 @@ class GradientBackground extends StatelessWidget {
   Widget build(BuildContext context) {
     return DecoratedBox(
       decoration: const BoxDecoration(gradient: AppColors.backgroundGradient),
-      child: child,
+      // Without this the box shrinks to its child, and any screen whose
+      // content is shorter than the viewport shows the scaffold colour below
+      // the wash as a hard horizontal seam.
+      child: SizedBox.expand(child: child),
     );
   }
 }

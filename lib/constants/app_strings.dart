@@ -27,4 +27,10 @@ abstract final class AppStrings {
   /// The design frame spells this "SginUp"; corrected here.
   static const String noAccountPrompt = "Don't have account ! ";
   static const String signUp = 'Sign Up';
+
+  // --- Sign up -----------------------------------------------------------
+  static const String signUpTitle = 'Sign Up';
+  static const String fullName = 'Full name';
+  static const String confirmPassword = 'Confirm Password';
+  static const String signUpAction = 'sign up';
 }
