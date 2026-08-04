@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 
 import 'package:fluxa/components/app_text_field.dart';
 import 'package:fluxa/components/auth_card.dart';
+import 'package:fluxa/components/fluxa_backdrop.dart';
 import 'package:fluxa/components/gradient_background.dart';
 import 'package:fluxa/components/soft_shadow.dart';
 import 'package:fluxa/constants/app_assets.dart';
@@ -23,6 +24,20 @@ const double _mascotWidthFactor = 0.26;
 
 /// The ribbon sweeps across under the title, mirrored from the splash export.
 const double _ribbonWidthFactor = 1.05;
+
+/// Recolours the ribbon along its sweep — light where it enters at the left,
+/// deepening to brand teal as it runs off the right edge.
+const LinearGradient _ribbonGradient = LinearGradient(
+  begin: Alignment.centerLeft,
+  end: Alignment.centerRight,
+  colors: <Color>[
+    AppColors.mintLight,
+    AppColors.tealBright,
+    AppColors.teal,
+    AppColors.tealDark,
+  ],
+  stops: <double>[0.0, 0.32, 0.68, 1.0],
+);
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -60,16 +75,11 @@ class _LoginViewState extends State<_LoginView> {
     final double mascotWidth = width * _mascotWidthFactor;
 
     return Scaffold(
-      body: Stack(
-        children: <Widget>[
-          Positioned.fill(
-            child: SvgPicture.asset(
-              AppAssets.fluxaBackground,
-              fit: BoxFit.cover,
-            ),
-          ),
-          GradientBackground(
-            child: SafeArea(
+      body: GradientBackground(
+        child: Stack(
+          children: <Widget>[
+            const FluxaBackdrop(),
+            SafeArea(
               child: SingleChildScrollView(
                 padding: EdgeInsets.symmetric(horizontal: context.wp(0.035)),
                 child: Column(
@@ -78,78 +88,87 @@ class _LoginViewState extends State<_LoginView> {
                     SizedBox(height: context.hp(0.03)),
 
                     // Title and ribbon share a stack so the ribbon can run behind
-                // the wordmark and off the right edge.
-                SizedBox(
-                  height: context.hp(0.26),
-                  child: Stack(
-                    clipBehavior: Clip.none,
-                    children: <Widget>[
-                      Positioned(
-                        left: -width * 0.02,
-                        top: context.hp(0.05),
-                        width: width * _ribbonWidthFactor,
-                        child: IgnorePointer(
-                          // The splash export runs the other way; mirroring it
-                          // gives the sweep the design shows here.
-                          child: Transform.flip(
-                            flipX: true,
-                            child: SvgPicture.asset(
-                              AppAssets.splashSwoosh,
-                              width: width * _ribbonWidthFactor,
-                              fit: BoxFit.contain,
+                    // the wordmark and off the right edge.
+                    SizedBox(
+                      height: context.hp(0.26),
+                      child: Stack(
+                        clipBehavior: Clip.none,
+                        children: <Widget>[
+                          Positioned(
+                            left: -width * 0.02,
+                            top: context.hp(0.05),
+                            width: width * _ribbonWidthFactor,
+                            child: IgnorePointer(
+                              // The export bakes in a flat dark teal ramp. srcATop
+                              // repaints it across its own length while keeping the
+                              // ribbon's alpha, so the sweep runs mint into brand
+                              // teal instead of reading as one dark stroke.
+                              child: ShaderMask(
+                                blendMode: BlendMode.srcATop,
+                                shaderCallback: (Rect bounds) =>
+                                    _ribbonGradient.createShader(bounds),
+                                // The splash export runs the other way; mirroring
+                                // it gives the sweep the design shows here.
+                                child: Transform.flip(
+                                  flipX: true,
+                                  child: SvgPicture.asset(
+                                    AppAssets.splashSwoosh,
+                                    width: width * _ribbonWidthFactor,
+                                    fit: BoxFit.contain,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(left: context.wp(0.06)),
+                            child: Text(
+                              AppStrings.loginTitle,
+                              style: AppTextStyles.wordmark.copyWith(
+                                fontSize: context.sp(52),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    // Mascot overlaps the card's top-right corner.
+                    Stack(
+                      clipBehavior: Clip.none,
+                      alignment: Alignment.topRight,
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.only(
+                            top: mascotWidth / _mascotAspect * 0.42,
+                          ),
+                          child: _form(context),
+                        ),
+                        Positioned(
+                          right: context.wp(0.04),
+                          child: IgnorePointer(
+                            child: SoftShadow(
+                              blur: mascotWidth * 0.05,
+                              offset: Offset(0, mascotWidth * 0.02),
+                              child: SvgPicture.asset(
+                                AppAssets.splashArt,
+                                width: mascotWidth,
+                                fit: BoxFit.contain,
+                                semanticsLabel: AppStrings.semanticsLogo,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(left: context.wp(0.06)),
-                        child: Text(
-                          AppStrings.loginTitle,
-                          style: AppTextStyles.wordmark.copyWith(
-                            fontSize: context.sp(52),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-
-                // Mascot overlaps the card's top-right corner.
-                Stack(
-                  clipBehavior: Clip.none,
-                  alignment: Alignment.topRight,
-                  children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.only(
-                        top: mascotWidth / _mascotAspect * 0.42,
-                      ),
-                      child: _form(context),
+                      ],
                     ),
-                    Positioned(
-                      right: context.wp(0.04),
-                      child: IgnorePointer(
-                        child: SoftShadow(
-                          blur: mascotWidth * 0.05,
-                          offset: Offset(0, mascotWidth * 0.02),
-                          child: SvgPicture.asset(
-                            AppAssets.splashArt,
-                            width: mascotWidth,
-                            fit: BoxFit.contain,
-                            semanticsLabel: AppStrings.semanticsLogo,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
 
-                SizedBox(height: context.hp(0.04)),
+                    SizedBox(height: context.hp(0.04)),
                   ],
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -226,14 +245,12 @@ class _LoginButton extends StatelessWidget {
                 style: AppTextStyles.button.copyWith(fontSize: context.sp(19)),
               ),
               SizedBox(width: context.r(8)),
+              // The export carries its own pale mint fill, which is what the
+              // design shows against the teal pill — so it is not re-tinted.
               SvgPicture.asset(
-                AppAssets.robotBolt,
-                width: context.r(19),
+                AppAssets.loginIcon,
                 height: context.r(19),
-                colorFilter: const ColorFilter.mode(
-                  Colors.white,
-                  BlendMode.srcIn,
-                ),
+                excludeFromSemantics: true,
               ),
             ],
           ),
