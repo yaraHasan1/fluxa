@@ -57,13 +57,8 @@ abstract final class AppTextStyles {
     height: 1.1,
   );
 
-  /// The display face is stencil, which is unreadable at form sizes. Every
-  /// token below opts back out to the UI face.
-  static const String _uiFamily = 'Roboto';
-
   /// "Email", "Password" — the caption above an input.
   static const TextStyle fieldLabel = TextStyle(
-    fontFamily: _uiFamily,
     fontWeight: FontWeight.w600,
     color: AppColors.ink,
     height: 1.2,
@@ -71,7 +66,6 @@ abstract final class AppTextStyles {
 
   /// Text the user types into an input.
   static const TextStyle fieldInput = TextStyle(
-    fontFamily: _uiFamily,
     fontWeight: FontWeight.w400,
     color: AppColors.ink,
     height: 1.2,
@@ -79,7 +73,6 @@ abstract final class AppTextStyles {
 
   /// Small print under a form — "Did you forget your password?".
   static const TextStyle helper = TextStyle(
-    fontFamily: _uiFamily,
     fontWeight: FontWeight.w400,
     color: AppColors.tealMid,
     height: 1.3,
@@ -87,7 +80,6 @@ abstract final class AppTextStyles {
 
   /// The tappable run inside [helper] — "Reset password", "Sign Up".
   static const TextStyle helperAction = TextStyle(
-    fontFamily: _uiFamily,
     fontWeight: FontWeight.w700,
     color: AppColors.tealDark,
     height: 1.3,

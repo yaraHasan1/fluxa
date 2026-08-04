@@ -10,7 +10,7 @@ abstract final class AppAssets {
   static const String robotFull = '$_svg/fluxa_robot.svg';
 
   /// A wide mascot export used on social and onboarding screens.
-  static const String FluxabIG = '$_svg/FLUXABIG.svg';
+  static const String fluxaBig = '$_svg/FLUXABIG.svg';
 
   /// The full splash centrepiece (313×372): mascot, antenna waves, the floating
   /// power button and the swooping cable tail, composed as one group.
@@ -26,6 +26,17 @@ abstract final class AppAssets {
   /// Laying it out over the art at equal width registers it exactly, with no
   /// hand-tuned offset to drift when the art is re-exported.
   static const String splashBolt = '$_svg/splash_bolt.svg';
+
+  /// Full-frame watermark (440×956). The export carries `opacity="0.1"`
+  /// itself, so it is drawn at full strength — dimming it again would sink it
+  /// into the background.
+  static const String fluxaBackground = '$_svg/fluxa_background.svg';
+
+  /// Side-on mascot (159×251) used on the onboarding frame.
+  static const String fluxaSide = '$_svg/fluxa_side.svg';
+
+  /// Arrow-into-door glyph (44×38) for the login action.
+  static const String loginIcon = '$_svg/login_icon.svg';
 
   /// Three broadcast arcs radiating from a corner (170×167). Drawn once for
   /// the top-left and again, half-turned, for the bottom-right.

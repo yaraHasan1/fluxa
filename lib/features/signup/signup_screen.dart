@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluxa/components/app_text_field.dart';
 import 'package:fluxa/components/auth_card.dart';
 import 'package:fluxa/components/brand_blob.dart';
+import 'package:fluxa/components/fluxa_backdrop.dart';
 import 'package:fluxa/components/gradient_background.dart';
 import 'package:fluxa/components/primary_button.dart';
 import 'package:fluxa/components/soft_shadow.dart';
@@ -70,6 +71,8 @@ class _SignupViewState extends State<_SignupView> {
       body: GradientBackground(
         child: Stack(
           children: <Widget>[
+            const FluxaBackdrop(),
+
             // Colours the top-right corner; the card is translucent, so it
             // tints the card's right edge too.
             Positioned(
