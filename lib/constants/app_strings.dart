@@ -33,4 +33,5 @@ abstract final class AppStrings {
   static const String fullName = 'Full name';
   static const String confirmPassword = 'Confirm Password';
   static const String signUpAction = 'sign up';
+  static const String haveAccountPrompt = 'Already have account ! ';
 }

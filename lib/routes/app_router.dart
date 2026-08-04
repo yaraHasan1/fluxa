@@ -50,7 +50,12 @@ abstract final class AppRouter {
       GoRoute(
         path: AppRoutes.authPath,
         name: AppRoutes.auth,
-        redirect: (_, _) => AppRoutes.loginPath,
+        // Only bounce a bare /auth to the login form. go_router runs the
+        // redirects of every matched route in the chain, so an unconditional
+        // one here would swallow /auth/signup, /auth/verification and the
+        // password routes as well.
+        redirect: (_, GoRouterState state) =>
+            state.uri.path == AppRoutes.authPath ? AppRoutes.loginPath : null,
         routes: <RouteBase>[
           GoRoute(
             path: 'login',
