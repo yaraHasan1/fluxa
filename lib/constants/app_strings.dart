@@ -15,4 +15,16 @@ abstract final class AppStrings {
   static const String welcomeBody =
       'Built to make energy management effortless, intuitive and smart';
   static const String next = 'next';
+
+  // --- Login -------------------------------------------------------------
+  static const String loginTitle = 'LOGIN';
+  static const String email = 'Email';
+  static const String password = 'Password';
+  static const String forgotPasswordPrompt = 'Did you forget your password? ';
+  static const String resetPassword = 'Reset password';
+  static const String login = 'Login';
+
+  /// The design frame spells this "SginUp"; corrected here.
+  static const String noAccountPrompt = "Don't have account ! ";
+  static const String signUp = 'Sign Up';
 }

@@ -32,6 +32,13 @@ abstract final class AppColors {
   /// is a soft mint glow, not a grey shadow.
   static const Color glow = Color(0xFF74B9AA);
 
+  // --- Form chrome -------------------------------------------------------
+  /// Hairline around the translucent auth panel.
+  static const Color cardBorder = Color(0xFF6FB3AB);
+
+  /// Hairline around a resting input.
+  static const Color fieldBorder = Color(0xFFB9D3CF);
+
   // --- Surfaces ----------------------------------------------------------
   static const Color backgroundTop = Color(0xFFE3ECF1);
   static const Color backgroundBottom = Color(0xFFD3E0E7);

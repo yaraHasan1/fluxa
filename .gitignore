@@ -122,3 +122,6 @@ app.*.map.json
 # Code coverage
 *.lcov
 .dart_tool/
+
+# Golden-test diff output
+test/failures/
