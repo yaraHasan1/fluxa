@@ -87,8 +87,6 @@ class _LoginViewState extends State<_LoginView> {
                   children: <Widget>[
                     SizedBox(height: context.hp(0.03)),
 
-                    // Title and ribbon share a stack so the ribbon can run behind
-                    // the wordmark and off the right edge.
                     SizedBox(
                       height: context.hp(0.26),
                       child: Stack(
@@ -98,26 +96,11 @@ class _LoginViewState extends State<_LoginView> {
                             left: -width * 0.02,
                             top: context.hp(0.05),
                             width: width * _ribbonWidthFactor,
-                            child: IgnorePointer(
-                              // The export bakes in a flat dark teal ramp. srcATop
-                              // repaints it across its own length while keeping the
-                              // ribbon's alpha, so the sweep runs mint into brand
-                              // teal instead of reading as one dark stroke.
-                              child: ShaderMask(
-                                blendMode: BlendMode.srcATop,
-                                shaderCallback: (Rect bounds) =>
-                                    _ribbonGradient.createShader(bounds),
-                                // The splash export runs the other way; mirroring
-                                // it gives the sweep the design shows here.
-                                child: Transform.flip(
-                                  flipX: true,
-                                  child: SvgPicture.asset(
-                                    AppAssets.splashSwoosh,
-                                    width: width * _ribbonWidthFactor,
-                                    fit: BoxFit.contain,
-                                  ),
-                                ),
-                              ),
+
+                            child: SvgPicture.asset(
+                              AppAssets.loginUnder,
+                              width: width * _ribbonWidthFactor,
+                              fit: BoxFit.contain,
                             ),
                           ),
                           Padding(

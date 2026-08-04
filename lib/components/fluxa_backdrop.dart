@@ -19,7 +19,6 @@ class FluxaBackdrop extends StatelessWidget {
       child: IgnorePointer(
         child: SvgPicture.asset(
           AppAssets.fluxaBackground,
-          fit: BoxFit.cover,
           alignment: alignment,
           excludeFromSemantics: true,
         ),

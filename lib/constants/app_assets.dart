@@ -24,6 +24,7 @@ abstract final class AppAssets {
   /// The cable tail that sweeps beneath the mascot (342×191). Sits *under*
   /// [splashArt] in the stack.
   static const String splashSwoosh = '$_svg/splash_swoosh.svg';
+  static const String loginUnder = '$_svg/loginUnder.svg';
 
   /// The chest bolt, extracted from [splashArt] at the *same* 313×372 viewBox.
   /// Laying it out over the art at equal width registers it exactly, with no
@@ -33,7 +34,6 @@ abstract final class AppAssets {
   /// Full-frame watermark (440×956). The export carries `opacity="0.1"`
   /// itself, so it is drawn at full strength — dimming it again would sink it
   /// into the background.
-  static const String fluxaBackground = '$_svg/fluxa_background.svg';
 
   /// Side-on mascot (159×251) used on the onboarding frame.
   static const String fluxaSide = '$_svg/fluxa_side.svg';

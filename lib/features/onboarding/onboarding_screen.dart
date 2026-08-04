@@ -11,15 +11,15 @@ import 'package:fluxa/routes/app_routes.dart';
 import 'package:fluxa/theme/app_text_styles.dart';
 import 'package:fluxa/utils/responsive_extension.dart';
 
-/// Intrinsic aspect ratio of [AppAssets.fluxaSide] (159 × 251).
-const double _artAspect = 159 / 251;
+/// Intrinsic aspect ratio of [AppAssets.splashArt] (313 × 372).
+const double _artAspect = 313 / 372;
 
-/// The mascot is laid out far wider than the
+/// The mascot is the same export as the splash, laid out far wider than the
 /// screen and pushed off the left and bottom edges so only the head, one arm
 /// and the chest bolt stay in frame — the crop the design calls for.
-const double _artWidthFactor = 1.91;
-const double _artLeftFactor = -0.383;
-const double _artTopFactor = -0.016;
+const double _artWidthFactor = 1.59;
+const double _artLeftFactor = -0.272;
+const double _artTopFactor = 0.19;
 
 /// The welcome frame: title, supporting copy, a cropped mascot and the
 /// forward action.
@@ -53,7 +53,7 @@ class OnboardingScreen extends StatelessWidget {
                         blur: artWidth * 0.022,
                         offset: Offset(0, artWidth * 0.006),
                         child: SvgPicture.asset(
-                          AppAssets.fluxaSide,
+                          AppAssets.fluxaBig,
                           width: artWidth,
                           fit: BoxFit.contain,
                           semanticsLabel: AppStrings.semanticsLogo,
@@ -75,7 +75,7 @@ class OnboardingScreen extends StatelessWidget {
                             child: Text(
                               AppStrings.welcomeTitle,
                               style: AppTextStyles.heading.copyWith(
-                                fontSize: context.sp(36),
+                                fontSize: context.sp(30),
                               ),
                             ),
                           ),
@@ -90,7 +90,7 @@ class OnboardingScreen extends StatelessWidget {
                               AppStrings.welcomeBody,
                               textAlign: TextAlign.center,
                               style: AppTextStyles.subtitle.copyWith(
-                                fontSize: context.sp(20),
+                                fontSize: context.sp(19),
                               ),
                             ),
                           ),
