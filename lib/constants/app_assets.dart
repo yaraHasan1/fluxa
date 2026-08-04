@@ -12,6 +12,9 @@ abstract final class AppAssets {
   /// A wide mascot export used on social and onboarding screens.
   static const String FluxabIG = '$_svg/FLUXABIG.svg';
 
+  /// A full-screen brand background used on the login and welcome frames.
+  static const String fluxaBackground = '$_svg/FluxaBackround.svg';
+
   /// The full splash centrepiece (313×372): mascot, antenna waves, the floating
   /// power button and the swooping cable tail, composed as one group.
   ///

@@ -60,16 +60,24 @@ class _LoginViewState extends State<_LoginView> {
     final double mascotWidth = width * _mascotWidthFactor;
 
     return Scaffold(
-      body: GradientBackground(
-        child: SafeArea(
-          child: SingleChildScrollView(
-            padding: EdgeInsets.symmetric(horizontal: context.wp(0.035)),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                SizedBox(height: context.hp(0.03)),
+      body: Stack(
+        children: <Widget>[
+          Positioned.fill(
+            child: SvgPicture.asset(
+              AppAssets.fluxaBackground,
+              fit: BoxFit.cover,
+            ),
+          ),
+          GradientBackground(
+            child: SafeArea(
+              child: SingleChildScrollView(
+                padding: EdgeInsets.symmetric(horizontal: context.wp(0.035)),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    SizedBox(height: context.hp(0.03)),
 
-                // Title and ribbon share a stack so the ribbon can run behind
+                    // Title and ribbon share a stack so the ribbon can run behind
                 // the wordmark and off the right edge.
                 SizedBox(
                   height: context.hp(0.26),
@@ -136,10 +144,12 @@ class _LoginViewState extends State<_LoginView> {
                 ),
 
                 SizedBox(height: context.hp(0.04)),
-              ],
+                  ],
+                ),
+              ),
             ),
           ),
-        ),
+        ],
       ),
     );
   }
@@ -216,7 +226,15 @@ class _LoginButton extends StatelessWidget {
                 style: AppTextStyles.button.copyWith(fontSize: context.sp(19)),
               ),
               SizedBox(width: context.r(8)),
-              Icon(Icons.login, size: context.r(19), color: Colors.white),
+              SvgPicture.asset(
+                AppAssets.robotBolt,
+                width: context.r(19),
+                height: context.r(19),
+                colorFilter: const ColorFilter.mode(
+                  Colors.white,
+                  BlendMode.srcIn,
+                ),
+              ),
             ],
           ),
         ),

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fluxa/theme/app_colors.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:fluxa/components/corner_arcs.dart';
@@ -13,6 +12,7 @@ import 'package:fluxa/constants/app_strings.dart';
 import 'package:fluxa/features/splash/cubit/splash_cubit.dart';
 import 'package:fluxa/features/splash/widgets/bolt_glow.dart';
 import 'package:fluxa/routes/app_routes.dart';
+import 'package:fluxa/theme/app_colors.dart';
 import 'package:fluxa/theme/app_text_styles.dart';
 import 'package:fluxa/utils/responsive_extension.dart';
 
@@ -115,10 +115,21 @@ class _SplashContent extends StatelessWidget {
               child: DrawOnReveal(
                 duration: _swooshDraw,
                 delay: _swooshDelay,
-                child: SvgPicture.asset(
-                  AppAssets.splashSwoosh,
-                  width: swooshWidth,
-                  fit: BoxFit.contain,
+                child: ShaderMask(
+                  shaderCallback: (Rect bounds) => const LinearGradient(
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                    colors: <Color>[
+                      AppColors.mintLight,
+                      AppColors.tealBright,
+                    ],
+                  ).createShader(bounds),
+                  blendMode: BlendMode.srcIn,
+                  child: SvgPicture.asset(
+                    AppAssets.splashSwoosh,
+                    width: swooshWidth,
+                    fit: BoxFit.contain,
+                  ),
                 ),
               ),
             ),

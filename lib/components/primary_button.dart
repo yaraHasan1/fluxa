@@ -53,7 +53,7 @@ class PrimaryButton extends StatelessWidget {
             curve: AppCurves.standard,
             padding: EdgeInsets.symmetric(
               horizontal: context.r(26),
-              vertical: context.r(11),
+              vertical: context.r(7),
             ),
             // A non-null alignment makes the container expand to its
             // constraints, which is right only when stretching on purpose.
@@ -61,7 +61,10 @@ class PrimaryButton extends StatelessWidget {
             child: Text(
               label,
               textAlign: TextAlign.center,
-              style: AppTextStyles.button.copyWith(fontSize: context.sp(15)),
+              style: AppTextStyles.button.copyWith(fontSize: context.sp(24),
+              color: AppColors.shellLight, 
+              ),
+             
             ),
           ),
         ),

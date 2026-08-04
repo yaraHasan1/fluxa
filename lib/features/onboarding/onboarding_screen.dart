@@ -75,7 +75,7 @@ class OnboardingScreen extends StatelessWidget {
                             child: Text(
                               AppStrings.welcomeTitle,
                               style: AppTextStyles.heading.copyWith(
-                                fontSize: context.sp(30),
+                                fontSize: context.sp(36),
                               ),
                             ),
                           ),
@@ -90,7 +90,7 @@ class OnboardingScreen extends StatelessWidget {
                               AppStrings.welcomeBody,
                               textAlign: TextAlign.center,
                               style: AppTextStyles.subtitle.copyWith(
-                                fontSize: context.sp(19),
+                                fontSize: context.sp(20),
                               ),
                             ),
                           ),
