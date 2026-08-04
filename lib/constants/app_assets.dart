@@ -38,6 +38,11 @@ abstract final class AppAssets {
   /// Arrow-into-door glyph (44×38) for the login action.
   static const String loginIcon = '$_svg/login_icon.svg';
 
+  /// The ribbon that sweeps under the LOGIN wordmark (423×271). Carries its
+  /// own linear gradient — shell grey into teal into navy — so it must not be
+  /// recoloured.
+  static const String loginRibbon = '$_svg/login_ribbon.svg';
+
   /// Three broadcast arcs radiating from a corner (170×167). Drawn once for
   /// the top-left and again, half-turned, for the bottom-right.
   static const String cornerArcs = '$_svg/corner_arcs.svg';

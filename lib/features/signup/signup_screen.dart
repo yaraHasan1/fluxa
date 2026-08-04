@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 
 import 'package:fluxa/components/app_text_field.dart';
 import 'package:fluxa/components/auth_card.dart';
 import 'package:fluxa/components/brand_blob.dart';
 import 'package:fluxa/components/fluxa_backdrop.dart';
 import 'package:fluxa/components/gradient_background.dart';
+import 'package:fluxa/components/inline_link.dart';
 import 'package:fluxa/components/primary_button.dart';
 import 'package:fluxa/components/soft_shadow.dart';
 import 'package:fluxa/constants/app_assets.dart';
 import 'package:fluxa/constants/app_strings.dart';
 import 'package:fluxa/features/signup/cubit/signup_cubit.dart';
+import 'package:fluxa/routes/app_routes.dart';
 import 'package:fluxa/theme/app_text_styles.dart';
 import 'package:fluxa/utils/responsive_extension.dart';
 
@@ -184,8 +187,14 @@ class _SignupViewState extends State<_SignupView> {
               Center(
                 child: PrimaryButton(
                   label: AppStrings.signUpAction,
-                  onPressed: () {},
+                  onPressed: () => context.goNamed(AppRoutes.verification),
                 ),
+              ),
+              SizedBox(height: context.r(14)),
+              InlineLink(
+                prompt: AppStrings.haveAccountPrompt,
+                action: AppStrings.login,
+                onTap: () => context.goNamed(AppRoutes.login),
               ),
             ],
           );

@@ -18,8 +18,8 @@ void main() {
     await tester.runAsync(loadDisplayFont);
     await tester.runAsync(
       () => precacheSvgs(<String>[
-        AppAssets.splashArt,
-        AppAssets.splashSwoosh,
+        AppAssets.fluxaSide,
+        AppAssets.loginRibbon,
         AppAssets.fluxaBackground,
         AppAssets.loginIcon,
       ]),

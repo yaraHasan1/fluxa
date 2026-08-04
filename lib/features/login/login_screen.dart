@@ -7,6 +7,7 @@ import 'package:fluxa/components/app_text_field.dart';
 import 'package:fluxa/components/auth_card.dart';
 import 'package:fluxa/components/fluxa_backdrop.dart';
 import 'package:fluxa/components/gradient_background.dart';
+import 'package:fluxa/components/inline_link.dart';
 import 'package:fluxa/components/soft_shadow.dart';
 import 'package:fluxa/constants/app_assets.dart';
 import 'package:fluxa/constants/app_strings.dart';
@@ -16,28 +17,14 @@ import 'package:fluxa/theme/app_colors.dart';
 import 'package:fluxa/theme/app_text_styles.dart';
 import 'package:fluxa/utils/responsive_extension.dart';
 
-/// Intrinsic aspect ratio of [AppAssets.splashArt] (313 × 372).
-const double _mascotAspect = 313 / 372;
+/// Intrinsic aspect ratio of [AppAssets.fluxaSide] (159 × 251).
+const double _mascotAspect = 159 / 251;
 
 /// The mascot perches on the card's top edge, overlapping it.
 const double _mascotWidthFactor = 0.26;
 
-/// The ribbon sweeps across under the title, mirrored from the splash export.
+/// The ribbon sweeps across under the title.
 const double _ribbonWidthFactor = 1.05;
-
-/// Recolours the ribbon along its sweep — light where it enters at the left,
-/// deepening to brand teal as it runs off the right edge.
-const LinearGradient _ribbonGradient = LinearGradient(
-  begin: Alignment.centerLeft,
-  end: Alignment.centerRight,
-  colors: <Color>[
-    AppColors.mintLight,
-    AppColors.tealBright,
-    AppColors.teal,
-    AppColors.tealDark,
-  ],
-  stops: <double>[0.0, 0.32, 0.68, 1.0],
-);
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -99,24 +86,11 @@ class _LoginViewState extends State<_LoginView> {
                             top: context.hp(0.05),
                             width: width * _ribbonWidthFactor,
                             child: IgnorePointer(
-                              // The export bakes in a flat dark teal ramp. srcATop
-                              // repaints it across its own length while keeping the
-                              // ribbon's alpha, so the sweep runs mint into brand
-                              // teal instead of reading as one dark stroke.
-                              child: ShaderMask(
-                                blendMode: BlendMode.srcATop,
-                                shaderCallback: (Rect bounds) =>
-                                    _ribbonGradient.createShader(bounds),
-                                // The splash export runs the other way; mirroring
-                                // it gives the sweep the design shows here.
-                                child: Transform.flip(
-                                  flipX: true,
-                                  child: SvgPicture.asset(
-                                    AppAssets.splashSwoosh,
-                                    width: width * _ribbonWidthFactor,
-                                    fit: BoxFit.contain,
-                                  ),
-                                ),
+                              child: SvgPicture.asset(
+                                AppAssets.loginRibbon,
+                                width: width * _ribbonWidthFactor,
+                                fit: BoxFit.contain,
+                                excludeFromSemantics: true,
                               ),
                             ),
                           ),
@@ -151,7 +125,7 @@ class _LoginViewState extends State<_LoginView> {
                               blur: mascotWidth * 0.05,
                               offset: Offset(0, mascotWidth * 0.02),
                               child: SvgPicture.asset(
-                                AppAssets.splashArt,
+                                AppAssets.fluxaSide,
                                 width: mascotWidth,
                                 fit: BoxFit.contain,
                                 semanticsLabel: AppStrings.semanticsLogo,
@@ -197,7 +171,7 @@ class _LoginViewState extends State<_LoginView> {
             ),
           ),
           SizedBox(height: context.r(12)),
-          _InlineLink(
+          InlineLink(
             prompt: AppStrings.forgotPasswordPrompt,
             action: AppStrings.resetPassword,
             align: TextAlign.end,
@@ -206,7 +180,7 @@ class _LoginViewState extends State<_LoginView> {
           SizedBox(height: context.r(18)),
           Center(child: _LoginButton(onPressed: () {})),
           SizedBox(height: context.r(14)),
-          _InlineLink(
+          InlineLink(
             prompt: AppStrings.noAccountPrompt,
             action: AppStrings.signUp,
             align: TextAlign.center,
@@ -255,45 +229,6 @@ class _LoginButton extends StatelessWidget {
             ],
           ),
         ),
-      ),
-    );
-  }
-}
-
-/// Small print with one tappable run at the end.
-class _InlineLink extends StatelessWidget {
-  const _InlineLink({
-    required this.prompt,
-    required this.action,
-    required this.align,
-    required this.onTap,
-  });
-
-  final String prompt;
-  final String action;
-  final TextAlign align;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    final double size = context.sp(11.5);
-
-    return GestureDetector(
-      onTap: onTap,
-      child: Text.rich(
-        TextSpan(
-          children: <InlineSpan>[
-            TextSpan(
-              text: prompt,
-              style: AppTextStyles.helper.copyWith(fontSize: size),
-            ),
-            TextSpan(
-              text: action,
-              style: AppTextStyles.helperAction.copyWith(fontSize: size),
-            ),
-          ],
-        ),
-        textAlign: align,
       ),
     );
   }
