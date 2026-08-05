@@ -32,6 +32,24 @@ abstract final class AppColors {
   /// is a soft mint glow, not a grey shadow.
   static const Color glow = Color(0xFF74B9AA);
 
+  // --- System status -----------------------------------------------------
+  // Sampled from the gradient stops inside each mascot export, so the card
+  // chrome and the artwork inside it cannot drift apart.
+
+  /// Healthy — reuses the brand teal.
+  static const Color statusHealthy = teal;
+  static const Color statusHealthySurface = Color(0xFFE7F5F1);
+
+  /// Bad — from fluxa_angry.svg (#FF383C / #CC2427 / #9A1113).
+  static const Color statusBad = Color(0xFFFF383C);
+  static const Color statusBadDeep = Color(0xFF9A1113);
+  static const Color statusBadSurface = Color(0xFFFAD7DA);
+
+  /// Warning — from fluxa_warning.svg (#FFC000 / #F28909).
+  static const Color statusWarning = Color(0xFFFFC000);
+  static const Color statusWarningDeep = Color(0xFFF28909);
+  static const Color statusWarningSurface = Color(0xFFFBF1CC);
+
   // --- Form chrome -------------------------------------------------------
   /// Hairline around the translucent auth panel.
   static const Color cardBorder = Color(0xFF6FB3AB);
