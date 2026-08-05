@@ -24,18 +24,30 @@ class BrandBlob extends StatelessWidget {
         child: Container(
           width: diameter,
           height: diameter,
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             shape: BoxShape.circle,
-            gradient: LinearGradient(
-              begin: Alignment.bottomLeft,
-              end: Alignment.topRight,
+            gradient: const LinearGradient(
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
               colors: <Color>[
-                AppColors.mintDeep,
+                AppColors.teal,
                 AppColors.tealBright,
                 AppColors.teal,
               ],
               stops: <double>[0.0, 0.45, 1.0],
             ),
+            border: Border.all(
+              color: AppColors.teal.withOpacity(0.18),
+              width: diameter * 0.008,
+            ),
+            boxShadow: <BoxShadow>[
+              BoxShadow(
+                color: AppColors.tealDark.withOpacity(0.12),
+                blurRadius: diameter * 0.04,
+                spreadRadius: diameter * 0.005,
+                offset: Offset(diameter * 0.01, 0),
+              ),
+            ],
           ),
         ),
       ),

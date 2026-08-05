@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 /// export so the Flutter UI and the vector artwork stay in perfect agreement.
 abstract final class AppColors {
   // --- Mint (highlights: eyes, mouth, bolt, antenna waves) ---------------
-  static const Color mintLight = Color(0xFF94EAD4);
+  static const Color mintLight = Color(0xFFBAF9DB);
   static const Color mint = Color(0xFF93E9D3);
   static const Color mintDeep = Color(0xFF54BDA8);
 

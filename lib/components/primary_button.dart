@@ -33,18 +33,24 @@ class PrimaryButton extends StatelessWidget {
 
     final Widget button = DecoratedBox(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(context.r(24)),
+        borderRadius: BorderRadius.circular(context.r(16)),
         boxShadow: <BoxShadow>[
           BoxShadow(
-            color: AppColors.glow.withValues(alpha: enabled ? 0.55 : 0),
-            blurRadius: context.r(12),
-            offset: Offset(0, context.r(4)),
+            color: AppColors.glow.withValues(alpha: enabled ? 0.55 : 0.0),
+            blurRadius: context.r(18),
+            spreadRadius: enabled ? context.r(1) : 0,
+            offset: Offset(0, context.r(6)),
+          ),
+          BoxShadow(
+            color: AppColors.teal.withValues(alpha: enabled ? 0.08 : 0.0),
+            blurRadius: context.r(10),
+            offset: Offset(0, context.r(2)),
           ),
         ],
       ),
       child: Material(
         color: enabled ? AppColors.teal : AppColors.shellMid,
-        borderRadius: BorderRadius.circular(context.r(24)),
+        borderRadius: BorderRadius.circular(context.r(16)),
         clipBehavior: Clip.antiAlias,
         child: InkWell(
           onTap: onPressed,
@@ -53,7 +59,7 @@ class PrimaryButton extends StatelessWidget {
             curve: AppCurves.standard,
             padding: EdgeInsets.symmetric(
               horizontal: context.r(26),
-              vertical: context.r(7),
+              vertical: context.r(10),
             ),
             // A non-null alignment makes the container expand to its
             // constraints, which is right only when stretching on purpose.
@@ -62,7 +68,7 @@ class PrimaryButton extends StatelessWidget {
               label,
               textAlign: TextAlign.center,
               style: AppTextStyles.button.copyWith(fontSize: context.sp(24),
-              color: AppColors.shellLight, 
+              color: AppColors.mintLight, 
               ),
              
             ),

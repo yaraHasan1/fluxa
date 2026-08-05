@@ -83,23 +83,33 @@ class _LoginViewState extends State<_LoginView> {
                         children: <Widget>[
                           Positioned(
                             left: -width * 0.02,
-                            top: context.hp(0.05),
-                            width: width * _ribbonWidthFactor,
+                            top: context.hp(0.02),
                             child: IgnorePointer(
                               child: SvgPicture.asset(
                                 AppAssets.loginRibbon,
                                 width: width * _ribbonWidthFactor,
-                                fit: BoxFit.contain,
-                                excludeFromSemantics: true,
                               ),
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.only(left: context.wp(0.06)),
-                            child: Text(
-                              AppStrings.loginTitle,
-                              style: AppTextStyles.wordmark.copyWith(
-                                fontSize: context.sp(52),
+                            padding: EdgeInsets.only(left: context.wp(0.12),
+                            top: context.hp(0.07)),
+                            child: ShaderMask(
+                              shaderCallback: (Rect bounds) => const LinearGradient(
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                                colors: <Color>[
+                                  AppColors.navy,
+                                  AppColors.teal,
+                                ],
+                              ).createShader(bounds),
+                              blendMode: BlendMode.srcIn,
+                              child: Text(
+                                AppStrings.loginTitle,
+                                style: AppTextStyles.wordmark.copyWith(
+                                  fontSize: context.sp(90),
+                                  color: Colors.white,
+                                ),
                               ),
                             ),
                           ),
@@ -114,12 +124,13 @@ class _LoginViewState extends State<_LoginView> {
                       children: <Widget>[
                         Padding(
                           padding: EdgeInsets.only(
-                            top: mascotWidth / _mascotAspect * 0.42,
+                            top:mascotWidth / _mascotAspect * 0.42,
                           ),
                           child: _form(context),
                         ),
                         Positioned(
-                          right: context.wp(0.04),
+                          right: context.wp(0.03),
+                          top: -mascotWidth / _mascotAspect * 0.12,
                           child: IgnorePointer(
                             child: SoftShadow(
                               blur: mascotWidth * 0.05,
@@ -171,11 +182,14 @@ class _LoginViewState extends State<_LoginView> {
             ),
           ),
           SizedBox(height: context.r(12)),
-          InlineLink(
-            prompt: AppStrings.forgotPasswordPrompt,
-            action: AppStrings.resetPassword,
-            align: TextAlign.end,
-            onTap: () => context.goNamed(AppRoutes.forgetPassword),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 35.0),
+            child: InlineLink(
+              prompt: AppStrings.forgotPasswordPrompt,
+              action: AppStrings.resetPassword,
+              align: TextAlign.end,
+              onTap: () => context.goNamed(AppRoutes.forgetPassword),
+            ),
           ),
           SizedBox(height: context.r(18)),
           Center(child: _LoginButton(onPressed: () {})),
@@ -202,29 +216,34 @@ class _LoginButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       color: AppColors.teal,
-      borderRadius: BorderRadius.circular(context.r(22)),
-      clipBehavior: Clip.antiAlias,
+      borderRadius: BorderRadius.circular(context.r(16)),
+      // clipBehavior: Clip.antiAlias,
       child: InkWell(
         onTap: onPressed,
         child: Padding(
           padding: EdgeInsets.symmetric(
             horizontal: context.r(52),
-            vertical: context.r(10),
+            vertical: context.r(2),
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Text(
                 AppStrings.login,
-                style: AppTextStyles.button.copyWith(fontSize: context.sp(19)),
+                style: AppTextStyles.button.copyWith(fontSize: context.sp(24),
+                color: AppColors.mintLight, 
+                ),
               ),
               SizedBox(width: context.r(8)),
               // The export carries its own pale mint fill, which is what the
               // design shows against the teal pill — so it is not re-tinted.
-              SvgPicture.asset(
-                AppAssets.loginIcon,
-                height: context.r(19),
-                excludeFromSemantics: true,
+              Padding(
+                padding: const EdgeInsets.only(top: 8,),
+                child: SvgPicture.asset(
+                  AppAssets.loginIcon,
+                  height: context.r(30),
+                  // excludeFromSemantics: true,
+                ),
               ),
             ],
           ),

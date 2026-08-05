@@ -18,7 +18,7 @@ class AuthCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white.withValues(alpha: 0.55),
         borderRadius: BorderRadius.circular(context.r(22)),
-        border: Border.all(color: AppColors.cardBorder),
+        border: Border.all(color: AppColors.teal, width: context.r(2)),
       ),
       child: Padding(
         padding: EdgeInsets.symmetric(

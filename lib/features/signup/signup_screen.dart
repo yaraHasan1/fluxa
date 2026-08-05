@@ -24,10 +24,10 @@ const double _mascotAspect = 313 / 372;
 /// The mascot sits on the blob, overlapping the card's top-right corner.
 const double _mascotWidthFactor = 0.26;
 
-/// The blob is mostly off the top-right corner; only its lower-left arc shows.
+/// The blob sits mostly off the right edge, showing as a half-circle from the right.
 const double _blobDiameterFactor = 1.70;
-const double _blobRightFactor = -1.15;
-const double _blobTopFactor = -0.356;
+const double _blobRightFactor = -0.95;
+const double _blobTopFactor = 0.22;
 
 class SignupScreen extends StatelessWidget {
   const SignupScreen({super.key});
@@ -68,7 +68,7 @@ class _SignupViewState extends State<_SignupView> {
     final double width = context.screenWidth;
     final double height = context.screenHeight;
     final double mascotWidth = width * _mascotWidthFactor;
-    final double blob = width * _blobDiameterFactor;
+    final double blob = 580;
 
     return Scaffold(
       body: GradientBackground(
@@ -80,7 +80,7 @@ class _SignupViewState extends State<_SignupView> {
             // tints the card's right edge too.
             Positioned(
               right: width * _blobRightFactor,
-              top: height * _blobTopFactor,
+              top: 8,
               child: BrandBlob(diameter: blob),
             ),
 
@@ -90,13 +90,13 @@ class _SignupViewState extends State<_SignupView> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
-                    SizedBox(height: context.hp(0.035)),
+                    SizedBox(height: context.hp(0.025)),
                     Padding(
-                      padding: EdgeInsets.only(left: context.wp(0.035)),
+                      padding: EdgeInsets.symmetric(horizontal: context.wp(0.035), ),
                       child: Text(
                         AppStrings.signUpTitle,
                         style: AppTextStyles.wordmark.copyWith(
-                          fontSize: context.sp(40),
+                          fontSize: context.sp(60),
                         ),
                       ),
                     ),
@@ -109,18 +109,19 @@ class _SignupViewState extends State<_SignupView> {
                       children: <Widget>[
                         Padding(
                           padding: EdgeInsets.only(
-                            top: mascotWidth / _mascotAspect * 0.40,
+                            top: mascotWidth / _mascotAspect * 0.90,
                           ),
                           child: _form(context),
                         ),
                         Positioned(
+                          top: -mascotWidth / _mascotAspect * 0.0001,
                           right: context.wp(0.02),
                           child: IgnorePointer(
                             child: SoftShadow(
                               blur: mascotWidth * 0.05,
                               offset: Offset(0, mascotWidth * 0.02),
                               child: SvgPicture.asset(
-                                AppAssets.splashArt,
+                                AppAssets.fluxaSide,
                                 width: mascotWidth,
                                 fit: BoxFit.contain,
                                 semanticsLabel: AppStrings.semanticsLogo,

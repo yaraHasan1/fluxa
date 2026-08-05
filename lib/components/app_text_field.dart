@@ -64,15 +64,15 @@ class AppTextField extends StatelessWidget {
             ),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(radius),
-              borderSide: BorderSide.none,
+              borderSide: const BorderSide(color: AppColors.teal, width: 2),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(radius),
-              borderSide: const BorderSide(color: AppColors.fieldBorder),
+              borderSide: const BorderSide(color: AppColors.teal, width: 2),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(radius),
-              borderSide: const BorderSide(color: AppColors.teal, width: 1.4),
+              borderSide: const BorderSide(color: AppColors.teal, width: 2),
             ),
             suffixIcon: onToggleObscure == null
                 ? null
