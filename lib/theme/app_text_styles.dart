@@ -85,6 +85,42 @@ abstract final class AppTextStyles {
     height: 1.3,
   );
 
+  // --- Deep teal frames --------------------------------------------------
+  /// Body copy on the saturated surface.
+  static const TextStyle deepBody = TextStyle(
+    fontWeight: FontWeight.w500,
+    color: AppColors.onDeep,
+    height: 1.45,
+  );
+
+  /// The address the code was sent to — underlined, as in the design.
+  static const TextStyle deepEmail = TextStyle(
+    fontWeight: FontWeight.w600,
+    color: AppColors.onDeep,
+    decoration: TextDecoration.underline,
+    decorationColor: AppColors.onDeep,
+    height: 1.2,
+  );
+
+  static const TextStyle deepHelper = TextStyle(
+    fontWeight: FontWeight.w400,
+    color: AppColors.onDeepMuted,
+    height: 1.3,
+  );
+
+  static const TextStyle deepHelperAction = TextStyle(
+    fontWeight: FontWeight.w700,
+    color: AppColors.onDeep,
+    height: 1.3,
+  );
+
+  static const TextStyle deepButton = TextStyle(
+    fontWeight: FontWeight.w600,
+    color: AppColors.onDeep,
+    letterSpacing: 0.3,
+    height: 1.1,
+  );
+
   static const TextStyle bodyMedium = TextStyle(
     fontWeight: FontWeight.w400,
     color: AppColors.navy,

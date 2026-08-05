@@ -43,6 +43,23 @@ abstract final class AppColors {
   static const Color backgroundTop = Color(0xFFE3ECF1);
   static const Color backgroundBottom = Color(0xFFD3E0E7);
 
+  // --- Deep surface (verification, password recovery) --------------------
+  /// Sampled from the teal frames, which invert the palette: saturated ground,
+  /// light type.
+  static const Color deepTop = Color(0xFF55AC9F);
+  static const Color deepBottom = Color(0xFF1F7C71);
+
+  /// Type and chrome that sit *on* the deep surface.
+  static const Color onDeep = Color(0xFFF2FBF8);
+  static const Color onDeepMuted = Color(0xFFBEE7DE);
+
+  /// Vertical wash for the teal frames.
+  static const LinearGradient deepGradient = LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+    colors: <Color>[deepTop, deepBottom],
+  );
+
   /// Vertical wash used behind the splash and every full-bleed brand surface.
   static const LinearGradient backgroundGradient = LinearGradient(
     begin: Alignment.topCenter,

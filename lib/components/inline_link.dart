@@ -15,12 +15,19 @@ class InlineLink extends StatelessWidget {
     required this.action,
     required this.onTap,
     this.align = TextAlign.center,
+    this.promptStyle,
+    this.actionStyle,
   });
 
   final String prompt;
   final String action;
   final VoidCallback onTap;
   final TextAlign align;
+
+  /// Override for the deep-teal frames, where the light-surface helper colours
+  /// would be unreadable.
+  final TextStyle? promptStyle;
+  final TextStyle? actionStyle;
 
   @override
   Widget build(BuildContext context) {
@@ -40,11 +47,15 @@ class InlineLink extends StatelessWidget {
             children: <InlineSpan>[
               TextSpan(
                 text: prompt,
-                style: AppTextStyles.helper.copyWith(fontSize: size),
+                style: (promptStyle ?? AppTextStyles.helper).copyWith(
+                  fontSize: size,
+                ),
               ),
               TextSpan(
                 text: action,
-                style: AppTextStyles.helperAction.copyWith(fontSize: size),
+                style: (actionStyle ?? AppTextStyles.helperAction).copyWith(
+                  fontSize: size,
+                ),
               ),
             ],
           ),
