@@ -34,4 +34,17 @@ abstract final class AppStrings {
   static const String confirmPassword = 'Confirm Password';
   static const String signUpAction = 'sign up';
   static const String haveAccountPrompt = 'Already have account ! ';
+
+  // --- Verification ------------------------------------------------------
+  static const String verificationPrompt =
+      'verification code  send the code to this  email :';
+
+  /// Stand-in shown only until a real address is routed in. The frame is
+  /// mocked up with this literal.
+  static const String emailPlaceholder = 'xxxx@gmail.com';
+
+  /// The design frame spells this "Didn't Recieve A code?"; corrected here.
+  static const String noCodePrompt = "Didn't Receive A code? ";
+  static const String resendCode = 'Resend Code';
+  static const String confirm = 'confirm';
 }
