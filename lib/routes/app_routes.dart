@@ -27,6 +27,12 @@ abstract final class AppRoutes {
   static const String forgetPassword = 'forget-password';
   static const String forgetPasswordPath = '$authPath/forget-password';
 
+  /// Query keys on the shared verification frame. [flowParam] selects where
+  /// "confirm" goes; [emailParam] carries the address to display.
+  static const String flowParam = 'flow';
+  static const String emailParam = 'email';
+  static const String recoveryFlow = 'recovery';
+
   /// Final step of the recovery flow — enter and confirm a new password.
   static const String resetPassword = 'reset-password';
   static const String resetPasswordPath = '$forgetPasswordPath/reset';

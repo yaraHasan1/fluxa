@@ -67,22 +67,48 @@ abstract final class AppRouter {
             name: AppRoutes.signup,
             builder: (_, _) => const SignupScreen(),
           ),
+          // One frame, two flows. Signup lands here to confirm an address and
+          // continues to login; recovery lands here and continues to the new
+          // password. `?flow=` says which, so the screen itself stays free of
+          // routing knowledge.
           GoRoute(
             path: 'verification',
             name: AppRoutes.verification,
-            builder: (_, _) => const VerificationScreen(),
+            builder: (BuildContext context, GoRouterState state) {
+              final bool recovery =
+                  state.uri.queryParameters[AppRoutes.flowParam] ==
+                  AppRoutes.recoveryFlow;
+
+              return VerificationScreen(
+                email: state.uri.queryParameters[AppRoutes.emailParam],
+                onConfirm: (_) => context.goNamed(
+                  recovery ? AppRoutes.resetPassword : AppRoutes.login,
+                ),
+              );
+            },
           ),
           GoRoute(
             path: 'forget-password',
             name: AppRoutes.forgetPassword,
-            builder: (_, _) => const ForgetPasswordScreen(),
+            builder: (BuildContext context, _) => ForgetPasswordScreen(
+              onConfirm: (String email) => context.goNamed(
+                AppRoutes.verification,
+                queryParameters: <String, String>{
+                  AppRoutes.flowParam: AppRoutes.recoveryFlow,
+                  if (email.isNotEmpty) AppRoutes.emailParam: email,
+                },
+              ),
+            ),
             routes: <RouteBase>[
               // The OTP step in between reuses [VerificationScreen]; only the
               // final "enter new password" frame is its own destination.
               GoRoute(
                 path: 'reset',
                 name: AppRoutes.resetPassword,
-                builder: (_, _) => const ResetPasswordScreen(),
+                builder: (BuildContext context, _) => ResetPasswordScreen(
+                  // Recovery ends back at the sign-in form.
+                  onConfirm: (_) => context.goNamed(AppRoutes.login),
+                ),
               ),
             ],
           ),
