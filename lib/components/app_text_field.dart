@@ -12,7 +12,8 @@ import 'package:fluxa/utils/responsive_extension.dart';
 class AppTextField extends StatelessWidget {
   const AppTextField({
     super.key,
-    required this.label,
+    this.label,
+    this.labelStyle,
     this.controller,
     this.keyboardType,
     this.textInputAction,
@@ -21,7 +22,12 @@ class AppTextField extends StatelessWidget {
     this.focusNode,
   });
 
-  final String label;
+  /// Omitted on the frames that show a bare field with no caption.
+  final String? label;
+
+  /// Override for the deep teal frames, where the dark label would vanish.
+  final TextStyle? labelStyle;
+
   final TextEditingController? controller;
   final TextInputType? keyboardType;
   final TextInputAction? textInputAction;
@@ -41,11 +47,15 @@ class AppTextField extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        Text(
-          label,
-          style: AppTextStyles.fieldLabel.copyWith(fontSize: context.sp(15)),
-        ),
-        SizedBox(height: context.r(7)),
+        if (label != null) ...<Widget>[
+          Text(
+            label!,
+            style: (labelStyle ?? AppTextStyles.fieldLabel).copyWith(
+              fontSize: context.sp(15),
+            ),
+          ),
+          SizedBox(height: context.r(7)),
+        ],
         TextField(
           controller: controller,
           focusNode: focusNode,

@@ -188,7 +188,15 @@ class _SignupViewState extends State<_SignupView> {
               Center(
                 child: PrimaryButton(
                   label: AppStrings.signUpAction,
-                  onPressed: () => context.goNamed(AppRoutes.verification),
+                  // No flow parameter: the signup path through verification
+                  // ends at login, which is the router's default.
+                  onPressed: () => context.goNamed(
+                    AppRoutes.verification,
+                    queryParameters: <String, String>{
+                      if (_email.text.isNotEmpty)
+                        AppRoutes.emailParam: _email.text,
+                    },
+                  ),
                 ),
               ),
               SizedBox(height: context.r(14)),

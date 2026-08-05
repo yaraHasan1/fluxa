@@ -47,4 +47,8 @@ abstract final class AppStrings {
   static const String noCodePrompt = "Didn't Receive A code? ";
   static const String resendCode = 'Resend Code';
   static const String confirm = 'confirm';
+
+  // --- Password recovery -------------------------------------------------
+  static const String resetPrompt = 'To reset the password\nEnter the email';
+  static const String newPasswordTitle = 'Enter New Password :';
 }
