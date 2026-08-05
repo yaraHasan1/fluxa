@@ -192,7 +192,13 @@ class _LoginViewState extends State<_LoginView> {
             ),
           ),
           SizedBox(height: context.r(18)),
-          Center(child: _LoginButton(onPressed: () {})),
+          Center(
+            child: _LoginButton(
+              // No credentials are checked yet — this only makes the
+              // dashboard reachable while the auth backend is outstanding.
+              onPressed: () => context.goNamed(AppRoutes.dashboard),
+            ),
+          ),
           SizedBox(height: context.r(14)),
           InlineLink(
             prompt: AppStrings.noAccountPrompt,

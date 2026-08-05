@@ -41,6 +41,17 @@ abstract final class AppAssets {
   /// Arrow-into-door glyph (44×38) for the login action.
   static const String loginIcon = '$_svg/login_icon.svg';
 
+  // --- Dashboard status --------------------------------------------------
+  /// One mascot per system state, each with its own palette baked in.
+  static const String fluxaHappy = '$_svg/fluxa_happy.svg'; // 183×280
+  static const String fluxaAngry = '$_svg/fluxa_angry.svg'; // 163×263
+  static const String fluxaWarning = '$_svg/fluxa_warning.svg'; // 188×281
+
+  /// The glyph beside each status reading.
+  static const String iconEnergy = '$_svg/icon_energy.svg'; // 174×197, teal
+  static const String iconFire = '$_svg/icon_fire.svg'; // 94×108, red
+  static const String iconAlert = '$_svg/icon_alert.svg'; // 11×59, amber
+
   /// The ribbon that sweeps under the LOGIN wordmark (423×271). Carries its
   /// own linear gradient — shell grey into teal into navy — so it must not be
   /// recoloured.

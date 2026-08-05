@@ -85,6 +85,34 @@ abstract final class AppTextStyles {
     height: 1.3,
   );
 
+  // --- Dashboard ---------------------------------------------------------
+  /// The greeting across the header blob.
+  static const TextStyle greeting = TextStyle(
+    fontWeight: FontWeight.w600,
+    color: AppColors.onDeep,
+    height: 1.15,
+  );
+
+  /// Section captions — "Current consumption", "Circuit breakers".
+  static const TextStyle sectionTitle = TextStyle(
+    fontWeight: FontWeight.w600,
+    color: AppColors.ink,
+    height: 1.2,
+  );
+
+  /// The large kW figure. Colour is supplied per status.
+  static const TextStyle reading = TextStyle(
+    fontWeight: FontWeight.w800,
+    height: 1.05,
+  );
+
+  /// The "kw" after a reading.
+  static const TextStyle readingUnit = TextStyle(
+    fontWeight: FontWeight.w600,
+    color: AppColors.tealMid,
+    height: 1.2,
+  );
+
   // --- Deep teal frames --------------------------------------------------
   /// Body copy on the saturated surface.
   static const TextStyle deepBody = TextStyle(

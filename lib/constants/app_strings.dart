@@ -51,4 +51,32 @@ abstract final class AppStrings {
   // --- Password recovery -------------------------------------------------
   static const String resetPrompt = 'To reset the password\nEnter the email';
   static const String newPasswordTitle = 'Enter New Password :';
+
+  // --- Dashboard ---------------------------------------------------------
+  static const String greetingPrefix = 'Good morning ';
+  static const String greetingSubtitle = "here's your system overview";
+
+  static const String currentConsumption = 'Current consumption';
+  static const String energySources = 'Energy sources';
+  static const String energySourcesCaption =
+      'Current production for each source';
+  static const String circuitBreakers = 'Circuit breakers';
+
+  static const String statusLabel = 'Status: ';
+  static const String statusHealthy = 'Healthy';
+  static const String statusBad = 'BAD';
+  static const String statusWarning = 'Warning';
+
+  static const String statusHealthyCaption = 'everything is running smoothly';
+  static const String statusBadCaption = 'There is an overload';
+  static const String statusWarningCaption =
+      'Better to keep an eye on your system';
+
+  static const String kilowattSuffix = 'kw';
+
+  static const String notifications = 'Notifications';
+  static const String settings = 'Settings';
+
+  /// Shown in place of a reading that has not arrived.
+  static const String noReading = '--';
 }
