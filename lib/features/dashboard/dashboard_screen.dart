@@ -16,7 +16,7 @@ import 'package:fluxa/utils/responsive_extension.dart';
 
 /// The header blob is mostly off the top of the frame; only its lower arc
 /// shows behind the greeting.
-const double _blobDiameterFactor = 1.55;
+const double _blobDiameterFactor = 1.15;
 const double _blobTopFactor = -0.30;
 
 /// System overview: greeting, status, production and the breaker list.
@@ -73,7 +73,7 @@ class _DashboardView extends StatelessWidget {
                         SizedBox(height: context.r(8)),
                         StatusCard(
                           status: state.status,
-                          kilowatts: state.consumptionKw,
+                          
                         ),
                         SizedBox(height: context.r(18)),
 

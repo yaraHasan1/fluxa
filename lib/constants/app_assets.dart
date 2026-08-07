@@ -48,7 +48,7 @@ abstract final class AppAssets {
   static const String fluxaWarning = '$_svg/fluxa_warning.svg'; // 188×281
 
   /// The glyph beside each status reading.
-  static const String iconEnergy = '$_svg/icon_energy.svg'; // 174×197, teal
+  static const String iconEnergy = '$_svg/energy.svg'; // 174×197, teal
   static const String iconFire = '$_svg/icon_fire.svg'; // 94×108, red
   static const String iconAlert = '$_svg/icon_alert.svg'; // 11×59, amber
 
