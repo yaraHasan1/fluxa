@@ -71,7 +71,7 @@ class _DashboardView extends StatelessWidget {
 
                         _SectionTitle(AppStrings.currentConsumption),
                         SizedBox(height: context.r(8)),
-                        StatusCard(
+                        SystemStatusCard(
                           status: state.status,
                           kilowatts: state.consumptionKw,
                         ),
