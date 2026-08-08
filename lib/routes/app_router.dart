@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:fluxa/features/forget_password/forget_password_screen.dart';
+import 'package:fluxa/features/request_sent/request_sent_screen.dart';
 import 'package:fluxa/features/reset_password/reset_password_screen.dart';
 import 'package:fluxa/features/login/login_screen.dart';
 import 'package:fluxa/features/signup/signup_screen.dart';
@@ -160,6 +161,11 @@ abstract final class AppRouter {
                 path: 'list',
                 name: AppRoutes.organisationsList,
                 builder: (_, _) => const OrganisationsListScreen(),
+              ),
+              GoRoute(
+                path: 'sent',
+                name: AppRoutes.requestSent,
+                builder: (_, _) => const RequestSentScreen(),
               ),
             ],
           ),

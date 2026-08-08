@@ -62,6 +62,9 @@ abstract final class AppRoutes {
   static const String addOrganisation = 'add-organisation';
   static const String addOrganisationPath = '$organisationSettingsPath/add';
 
+  static const String requestSent = 'request-sent';
+  static const String requestSentPath = '$organisationSettingsPath/sent';
+
   static const String organisationsList = 'organisations-list';
   static const String organisationsListPath = '$organisationSettingsPath/list';
 }

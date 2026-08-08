@@ -82,6 +82,27 @@ abstract final class AppStrings {
   static const String notifications = 'Notifications';
   static const String settings = 'Settings';
 
+  // --- Settings ----------------------------------------------------------
+  static const String settingsTitle = 'settings';
+  static const String organisationalSettings = 'Organizational settings';
+  static const String history = 'history';
+  static const String notificationsRow = 'notifications';
+  static const String changePassword = 'change password';
+
+  static const String companyName = 'Company Name';
+  static const String addOrganisation = 'Add organisation';
+  static const String organisationalChange = 'Organizational change';
+
+  static const String addOrganisationTitle = 'Add organization';
+  static const String organisationNameLabel = 'name';
+  static const String organisationSizeLabel = 'size';
+  static const String submit = 'Submit';
+
+  static const String organisationsListTitle = 'List of organizations';
+
+  static const String requestSent =
+      'We will send you the approval after\nreviewing your request.';
+
   /// Shown in place of a reading that has not arrived.
   static const String noReading = '--';
 }

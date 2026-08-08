@@ -57,6 +57,24 @@ abstract final class AppAssets {
   static const String iconServer = '$_svg/icon_server.svg'; // 30×36
   static const String iconAc = '$_svg/icon_ac.svg'; // 45×32
 
+  // --- Settings ----------------------------------------------------------
+  /// Mascot on the settings panel (303×330).
+  static const String fluxaSettings = '$_svg/fluxa_settings.svg';
+
+  /// Row glyphs. Notifications reuses [iconBell].
+  static const String iconChevronSolid =
+      '$_svg/icon_chevron_solid.svg'; // 16×24
+  static const String iconHistory = '$_svg/icon_history.svg'; // 32×32
+  static const String iconChangePassword =
+      '$_svg/icon_change_password.svg'; // 37×35
+  static const String iconAddOrg = '$_svg/icon_add_org.svg'; // 25×24
+
+  /// Filled circle-arrow used to advance out of a panel (50×50).
+  static const String iconArrowCircle = '$_svg/icon_arrow_circle.svg';
+
+  /// The tick-and-mascot artwork on the request-sent panel (312×340).
+  static const String successCheck = '$_svg/success_check.svg';
+
   /// Header actions on the dashboard.
   static const String iconBell = '$_svg/icon_bell.svg'; // 31×32
   static const String iconCog = '$_svg/icon_cog.svg'; // 32×32
