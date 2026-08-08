@@ -85,11 +85,10 @@ enum BreakerDevice {
   server,
   airConditioner;
 
-  /// Null while the artwork is outstanding — the tile falls back to a glyph.
-  String? get icon => switch (this) {
+  String get icon => switch (this) {
     BreakerDevice.pc => AppAssets.iconPc,
     BreakerDevice.server => AppAssets.iconServer,
-    BreakerDevice.airConditioner => null,
+    BreakerDevice.airConditioner => AppAssets.iconAc,
   };
 }
 

@@ -49,7 +49,7 @@ class CircuitBreakerTile extends StatelessWidget {
         border: Border.all(color: AppColors.tealBright.withValues(alpha: 0.6)),
         boxShadow: <BoxShadow>[
           BoxShadow(
-            color: AppColors.glow.withValues(alpha: 0.35),
+            color: AppColors.tealDark.withValues(alpha: 0.32),
             blurRadius: context.r(12),
             offset: Offset(0, context.r(4)),
           ),
@@ -129,15 +129,8 @@ class _DeviceGlyph extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final String? asset = device.icon;
-
-    // PLACEHOLDER: the air-conditioner artwork is still outstanding.
-    if (asset == null) {
-      return Icon(Icons.ac_unit, size: size * 0.8, color: AppColors.tealDark);
-    }
-
     return SvgPicture.asset(
-      asset,
+      device.icon,
       height: size,
       fit: BoxFit.contain,
       excludeFromSemantics: true,

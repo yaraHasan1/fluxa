@@ -52,9 +52,10 @@ abstract final class AppAssets {
   static const String iconWind = '$_svg/icon_wind.svg'; // 38×38
   static const String iconBattery = '$_svg/icon_battery.svg'; // 31×44
 
-  /// Circuit breaker device icons. The air conditioner is still outstanding.
+  /// Circuit breaker device icons.
   static const String iconPc = '$_svg/icon_pc.svg'; // 38×31
   static const String iconServer = '$_svg/icon_server.svg'; // 30×36
+  static const String iconAc = '$_svg/icon_ac.svg'; // 45×32
 
   /// Header actions on the dashboard.
   static const String iconBell = '$_svg/icon_bell.svg'; // 31×32
