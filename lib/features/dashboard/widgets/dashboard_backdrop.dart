@@ -34,18 +34,8 @@ class DashboardBackdrop extends StatelessWidget {
         return IgnorePointer(
           child: Stack(
             children: <Widget>[
-              _EdgeBloom(
-                width: w * 0.17,
-                top: h * 0.17,
-                bottom: h * 0.05,
-                fromLeft: true,
-              ),
-              _EdgeBloom(
-                width: w * 0.15,
-                top: h * 0.24,
-                bottom: h * 0.01,
-                fromLeft: false,
-              ),
+              _EdgeBloom(diameter: h * 0.52, top: h * 0.18, fromLeft: true),
+              _EdgeBloom(diameter: h * 0.46, top: h * 0.34, fromLeft: false),
               Positioned(
                 left: w * _leftDiscLeft,
                 top: h * _leftDiscTop,
@@ -99,36 +89,43 @@ class _Disc extends StatelessWidget {
   }
 }
 
-/// A vertical mint bloom hugging one edge, fading inwards.
+/// A soft mint bloom hugging one edge.
+///
+/// An ellipse pushed half off the frame, not a straight band: the falloff is
+/// radial, so the glow rounds off top and bottom instead of stopping on a hard
+/// horizontal line.
 class _EdgeBloom extends StatelessWidget {
   const _EdgeBloom({
-    required this.width,
+    required this.diameter,
     required this.top,
-    required this.bottom,
     required this.fromLeft,
   });
 
-  final double width;
+  /// The box is square on purpose. `BoxShape.circle` uses the shorter side, so
+  /// an oblong box would shrink the glow to its width rather than stretch it.
+  final double diameter;
+
   final double top;
-  final double bottom;
   final bool fromLeft;
+
+  /// How much of the circle is pushed outside the frame.
+  static const double _offFrame = 0.66;
 
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      left: fromLeft ? 0 : null,
-      right: fromLeft ? null : 0,
+      left: fromLeft ? -diameter * _offFrame : null,
+      right: fromLeft ? null : -diameter * _offFrame,
       top: top,
-      bottom: bottom,
-      width: width,
+      width: diameter,
+      height: diameter,
       child: DecoratedBox(
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: fromLeft ? Alignment.centerLeft : Alignment.centerRight,
-            end: fromLeft ? Alignment.centerRight : Alignment.centerLeft,
+          shape: BoxShape.circle,
+          gradient: RadialGradient(
             colors: <Color>[
-              AppColors.mintDeep.withValues(alpha: 0.60),
-              AppColors.mint.withValues(alpha: 0.18),
+              AppColors.mintDeep.withValues(alpha: 0.62),
+              AppColors.mint.withValues(alpha: 0.22),
               Colors.transparent,
             ],
             stops: const <double>[0.0, 0.55, 1.0],
