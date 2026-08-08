@@ -58,6 +58,10 @@ abstract final class AppStrings {
 
   static const String currentConsumption = 'Current consumption';
   static const String currentProduction = 'Current production';
+  static const String productionCaptionElectricity =
+      'Current consumption is not\nfrom solar electricity';
+  static const String productionCaptionEnergy =
+      'Current consumption is not\nfrom solar energy';
   static const String energySources = 'Energy sources';
   static const String energySourcesCaption =
       'Current production for each source';

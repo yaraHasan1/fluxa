@@ -15,6 +15,9 @@ class DashboardCubit extends Cubit<DashboardState> {
 
   void show(DashboardState next) => emit(next);
 
+  void toggleSources() =>
+      emit(state.copyWith(sourcesExpanded: !state.sourcesExpanded));
+
   void toggleBreaker(int index, bool isOn) {
     if (index < 0 || index >= state.breakers.length) return;
 

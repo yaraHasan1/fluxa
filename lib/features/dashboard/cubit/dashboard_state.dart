@@ -11,6 +11,7 @@ class DashboardState extends Equatable {
     this.consumptionKw,
     this.sources = const <EnergySource>[],
     this.breakers = const <CircuitBreaker>[],
+    this.sourcesExpanded = false,
   });
 
   final SystemStatus status;
@@ -21,6 +22,9 @@ class DashboardState extends Equatable {
   final List<EnergySource> sources;
   final List<CircuitBreaker> breakers;
 
+  /// Whether the Energy sources section is showing its per-source cards.
+  final bool sourcesExpanded;
+
   /// TEMPORARY: the figures from the design frame, so the screen can be seen
   /// before the telemetry service exists. Delete once readings are real.
   factory DashboardState.placeholder() => const DashboardState(
@@ -28,7 +32,11 @@ class DashboardState extends Equatable {
     sources: <EnergySource>[
       EnergySource(kind: EnergySourceKind.solar, kilowatts: 2.3),
       EnergySource(kind: EnergySourceKind.wind, kilowatts: 2.3),
-      EnergySource(kind: EnergySourceKind.battery, kilowatts: 2.3),
+      EnergySource(
+        kind: EnergySourceKind.battery,
+        kilowatts: 2.3,
+        chargePercent: 85,
+      ),
     ],
     breakers: <CircuitBreaker>[
       CircuitBreaker(
@@ -60,11 +68,13 @@ class DashboardState extends Equatable {
     double? consumptionKw,
     List<EnergySource>? sources,
     List<CircuitBreaker>? breakers,
+    bool? sourcesExpanded,
   }) => DashboardState(
     status: status ?? this.status,
     consumptionKw: consumptionKw ?? this.consumptionKw,
     sources: sources ?? this.sources,
     breakers: breakers ?? this.breakers,
+    sourcesExpanded: sourcesExpanded ?? this.sourcesExpanded,
   );
 
   @override
@@ -73,5 +83,6 @@ class DashboardState extends Equatable {
     consumptionKw,
     sources,
     breakers,
+    sourcesExpanded,
   ];
 }

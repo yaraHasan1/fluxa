@@ -71,6 +71,13 @@ enum EnergySourceKind {
     EnergySourceKind.battery => AppAssets.iconBattery,
   };
 
+  /// The line under the figure on the expanded card.
+  String get productionCaption => switch (this) {
+    EnergySourceKind.solar => AppStrings.productionCaptionEnergy,
+    EnergySourceKind.wind => AppStrings.productionCaptionElectricity,
+    EnergySourceKind.battery => AppStrings.productionCaptionElectricity,
+  };
+
   /// Colour of this column's reading, matching the icon it sits under.
   Color get accent => switch (this) {
     EnergySourceKind.solar => AppColors.statusWarning,
@@ -95,10 +102,18 @@ enum BreakerDevice {
 /// One production line in the "Energy sources" row.
 @immutable
 class EnergySource {
-  const EnergySource({required this.kind, required this.kilowatts});
+  const EnergySource({
+    required this.kind,
+    required this.kilowatts,
+    this.chargePercent,
+  });
 
   final EnergySourceKind kind;
   final double kilowatts;
+
+  /// Charge level, shown as a pill on the expanded card. Only the battery has
+  /// one; the others leave it null rather than render an empty badge.
+  final int? chargePercent;
 }
 
 /// One switchable circuit in the breakers list.

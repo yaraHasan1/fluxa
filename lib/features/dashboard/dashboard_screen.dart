@@ -3,15 +3,19 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
+import 'package:fluxa/animations/animation_constants.dart';
 import 'package:fluxa/components/gradient_background.dart';
 import 'package:fluxa/constants/app_assets.dart';
 import 'package:fluxa/constants/app_strings.dart';
 import 'package:fluxa/features/dashboard/cubit/dashboard_cubit.dart';
+import 'package:fluxa/features/dashboard/dashboard_models.dart';
 import 'package:fluxa/features/dashboard/widgets/circuit_breaker_tile.dart';
 import 'package:fluxa/features/dashboard/widgets/dashboard_backdrop.dart';
 import 'package:fluxa/features/dashboard/widgets/energy_sources_card.dart';
+import 'package:fluxa/features/dashboard/widgets/production_card.dart';
 import 'package:fluxa/features/dashboard/widgets/status_card.dart';
 import 'package:fluxa/routes/app_routes.dart';
+import 'package:fluxa/theme/app_colors.dart';
 import 'package:fluxa/theme/app_text_styles.dart';
 import 'package:fluxa/utils/responsive_extension.dart';
 
@@ -63,12 +67,31 @@ class _DashboardView extends StatelessWidget {
                         StatusCard(status: state.status),
                         SizedBox(height: context.r(18)),
 
-                        _SectionTitle(
-                          AppStrings.energySources,
-                          trailing: AppStrings.energySourcesCaption,
+                        // Tapping anywhere in the section swaps the compact
+                        // row for a card per source.
+                        InkWell(
+                          onTap: context.read<DashboardCubit>().toggleSources,
+                          borderRadius: BorderRadius.circular(context.r(16)),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: <Widget>[
+                              _SectionTitle(
+                                AppStrings.energySources,
+                                trailing: AppStrings.energySourcesCaption,
+                                expanded: state.sourcesExpanded,
+                              ),
+                              SizedBox(height: context.r(8)),
+                              AnimatedSize(
+                                duration: AppDurations.medium,
+                                curve: AppCurves.standard,
+                                alignment: Alignment.topCenter,
+                                child: state.sourcesExpanded
+                                    ? _ProductionList(sources: state.sources)
+                                    : EnergySourcesCard(sources: state.sources),
+                              ),
+                            ],
+                          ),
                         ),
-                        SizedBox(height: context.r(8)),
-                        EnergySourcesCard(sources: state.sources),
                         SizedBox(height: context.r(18)),
 
                         _SectionTitle(AppStrings.circuitBreakers),
@@ -186,11 +209,41 @@ class _HeaderIcon extends StatelessWidget {
   }
 }
 
+/// The three per-source cards the Energy sources section expands into.
+class _ProductionList extends StatelessWidget {
+  const _ProductionList({required this.sources});
+
+  final List<EnergySource> sources;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: <Widget>[
+        for (int i = 0; i < sources.length; i++) ...<Widget>[
+          if (i > 0) SizedBox(height: context.r(10)),
+          ProductionCard(
+            kind: sources[i].kind,
+            kilowatts: sources[i].kilowatts,
+            caption: sources[i].kind.productionCaption,
+            badge: sources[i].chargePercent == null
+                ? null
+                : '${sources[i].chargePercent}%',
+          ),
+        ],
+      ],
+    );
+  }
+}
+
 class _SectionTitle extends StatelessWidget {
-  const _SectionTitle(this.title, {this.trailing});
+  const _SectionTitle(this.title, {this.trailing, this.expanded});
 
   final String title;
   final String? trailing;
+
+  /// Null on sections that do not expand, so they show no chevron at all.
+  final bool? expanded;
 
   @override
   Widget build(BuildContext context) {
@@ -201,6 +254,17 @@ class _SectionTitle extends StatelessWidget {
           title,
           style: AppTextStyles.sectionTitle.copyWith(fontSize: context.sp(15)),
         ),
+        if (expanded != null)
+          AnimatedRotation(
+            turns: expanded! ? 0.5 : 0,
+            duration: AppDurations.medium,
+            curve: AppCurves.standard,
+            child: Icon(
+              Icons.expand_more,
+              size: context.r(18),
+              color: AppColors.ink,
+            ),
+          ),
         if (trailing != null) ...<Widget>[
           const Spacer(),
           Text(
