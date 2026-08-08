@@ -92,17 +92,20 @@ class _LoginViewState extends State<_LoginView> {
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.only(left: context.wp(0.12),
-                            top: context.hp(0.07)),
+                            padding: EdgeInsets.only(
+                              left: context.wp(0.12),
+                              top: context.hp(0.07),
+                            ),
                             child: ShaderMask(
-                              shaderCallback: (Rect bounds) => const LinearGradient(
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                                colors: <Color>[
-                                  AppColors.navy,
-                                  AppColors.teal,
-                                ],
-                              ).createShader(bounds),
+                              shaderCallback: (Rect bounds) =>
+                                  const LinearGradient(
+                                    begin: Alignment.topLeft,
+                                    end: Alignment.bottomRight,
+                                    colors: <Color>[
+                                      AppColors.navy,
+                                      AppColors.teal,
+                                    ],
+                                  ).createShader(bounds),
                               blendMode: BlendMode.srcIn,
                               child: Text(
                                 AppStrings.loginTitle,
@@ -124,7 +127,7 @@ class _LoginViewState extends State<_LoginView> {
                       children: <Widget>[
                         Padding(
                           padding: EdgeInsets.only(
-                            top:mascotWidth / _mascotAspect * 0.42,
+                            top: mascotWidth / _mascotAspect * 0.42,
                           ),
                           child: _form(context),
                         ),
@@ -236,15 +239,16 @@ class _LoginButton extends StatelessWidget {
             children: <Widget>[
               Text(
                 AppStrings.login,
-                style: AppTextStyles.button.copyWith(fontSize: context.sp(24),
-                color: AppColors.mintLight, 
+                style: AppTextStyles.button.copyWith(
+                  fontSize: context.sp(24),
+                  color: AppColors.mintLight,
                 ),
               ),
               SizedBox(width: context.r(8)),
               // The export carries its own pale mint fill, which is what the
               // design shows against the teal pill — so it is not re-tinted.
               Padding(
-                padding: const EdgeInsets.only(top: 8,),
+                padding: const EdgeInsets.only(top: 8),
                 child: SvgPicture.asset(
                   AppAssets.loginIcon,
                   height: context.r(30),

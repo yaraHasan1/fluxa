@@ -56,6 +56,10 @@ abstract final class AppAssets {
   static const String iconPc = '$_svg/icon_pc.svg'; // 38×31
   static const String iconServer = '$_svg/icon_server.svg'; // 30×36
 
+  /// Header actions on the dashboard.
+  static const String iconBell = '$_svg/icon_bell.svg'; // 31×32
+  static const String iconCog = '$_svg/icon_cog.svg'; // 32×32
+
   /// The glyph beside each status reading.
   static const String iconEnergy = '$_svg/energy.svg'; // 174×197, teal
   static const String iconFire = '$_svg/icon_fire.svg'; // 94×108, red

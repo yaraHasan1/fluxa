@@ -92,7 +92,9 @@ class _SignupViewState extends State<_SignupView> {
                   children: <Widget>[
                     SizedBox(height: context.hp(0.025)),
                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal: context.wp(0.035), ),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: context.wp(0.035),
+                      ),
                       child: Text(
                         AppStrings.signUpTitle,
                         style: AppTextStyles.wordmark.copyWith(

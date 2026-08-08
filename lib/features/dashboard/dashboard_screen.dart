@@ -1,23 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:fluxa/components/brand_blob.dart';
 import 'package:fluxa/components/gradient_background.dart';
+import 'package:fluxa/constants/app_assets.dart';
 import 'package:fluxa/constants/app_strings.dart';
 import 'package:fluxa/features/dashboard/cubit/dashboard_cubit.dart';
 import 'package:fluxa/features/dashboard/widgets/circuit_breaker_tile.dart';
+import 'package:fluxa/features/dashboard/widgets/dashboard_backdrop.dart';
 import 'package:fluxa/features/dashboard/widgets/energy_sources_card.dart';
 import 'package:fluxa/features/dashboard/widgets/status_card.dart';
 import 'package:fluxa/routes/app_routes.dart';
-import 'package:fluxa/theme/app_colors.dart';
 import 'package:fluxa/theme/app_text_styles.dart';
 import 'package:fluxa/utils/responsive_extension.dart';
-
-/// The header blob is mostly off the top of the frame; only its lower arc
-/// shows behind the greeting.
-const double _blobDiameterFactor = 1.15;
-const double _blobTopFactor = -0.30;
 
 /// System overview: greeting, status, production and the breaker list.
 class DashboardScreen extends StatelessWidget {
@@ -42,18 +38,11 @@ class _DashboardView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double width = context.screenWidth;
-    final double blob = width * _blobDiameterFactor;
-
     return Scaffold(
       body: GradientBackground(
         child: Stack(
           children: <Widget>[
-            Positioned(
-              left: (width - blob) / 2,
-              top: context.screenHeight * _blobTopFactor,
-              child: BrandBlob(diameter: blob),
-            ),
+            const Positioned.fill(child: DashboardBackdrop()),
 
             SafeArea(
               child: BlocBuilder<DashboardCubit, DashboardState>(
@@ -136,7 +125,7 @@ class _Greeting extends StatelessWidget {
   }
 }
 
-/// Bell and gear, sitting under the blob on the right.
+/// Bell and gear, sitting under the discs on the right.
 class _HeaderActions extends StatelessWidget {
   const _HeaderActions();
 
@@ -145,20 +134,54 @@ class _HeaderActions extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: <Widget>[
-        // PLACEHOLDER: the bell and gear artwork has not been supplied yet.
-        IconButton(
-          onPressed: () => context.goNamed(AppRoutes.notifications),
-          icon: Icon(Icons.notifications_none, size: context.r(22)),
-          color: AppColors.onDeep,
+        // The exports carry their own teal, so they are not re-tinted.
+        _HeaderIcon(
+          asset: AppAssets.iconBell,
           tooltip: AppStrings.notifications,
+          onPressed: () => context.goNamed(AppRoutes.notifications),
         ),
-        IconButton(
-          onPressed: () => context.goNamed(AppRoutes.settings),
-          icon: Icon(Icons.settings_outlined, size: context.r(22)),
-          color: AppColors.onDeep,
+        SizedBox(width: context.r(6)),
+        _HeaderIcon(
+          asset: AppAssets.iconCog,
           tooltip: AppStrings.settings,
+          onPressed: () => context.goNamed(AppRoutes.settings),
         ),
       ],
+    );
+  }
+}
+
+class _HeaderIcon extends StatelessWidget {
+  const _HeaderIcon({
+    required this.asset,
+    required this.tooltip,
+    required this.onPressed,
+  });
+
+  final String asset;
+  final String tooltip;
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    final double size = context.r(24);
+
+    return Tooltip(
+      message: tooltip,
+      child: InkResponse(
+        onTap: onPressed,
+        radius: size,
+        child: Padding(
+          padding: EdgeInsets.all(context.r(4)),
+          child: SvgPicture.asset(
+            asset,
+            width: size,
+            height: size,
+            fit: BoxFit.contain,
+            semanticsLabel: tooltip,
+          ),
+        ),
+      ),
     );
   }
 }

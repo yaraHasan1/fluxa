@@ -86,10 +86,11 @@ abstract final class AppTextStyles {
   );
 
   // --- Dashboard ---------------------------------------------------------
-  /// The greeting across the header blob.
+  /// The greeting across the header discs. Dark rather than white: it sits on
+  /// mid-teal, where near-white loses its edge.
   static const TextStyle greeting = TextStyle(
     fontWeight: FontWeight.w600,
-    color: AppColors.onDeep,
+    color: AppColors.ink,
     height: 1.15,
   );
 

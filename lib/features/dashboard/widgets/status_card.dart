@@ -9,11 +9,7 @@ import 'package:fluxa/theme/app_text_styles.dart';
 import 'package:fluxa/utils/responsive_extension.dart';
 
 class StatusCard extends StatelessWidget {
-  const StatusCard({
-    super.key,
-    required this.status,
-    this.kilowatts = 2.3,
-  });
+  const StatusCard({super.key, required this.status, this.kilowatts = 2.3});
 
   final SystemStatus status;
   final double kilowatts;
@@ -54,7 +50,6 @@ class StatusCard extends StatelessWidget {
                   blurRadius: 4,
                   offset: const Offset(0, 4),
                 ),
-               
               ],
             ),
 
@@ -169,10 +164,7 @@ class StatusCard extends StatelessWidget {
             top: -60,
             left: -context.wp(0.06),
             child: SizedBox(
-              child: SvgPicture.asset(
-                status.mascot,
-                fit: BoxFit.contain,
-              ),
+              child: SvgPicture.asset(status.mascot, fit: BoxFit.contain),
             ),
           ),
 

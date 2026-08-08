@@ -67,10 +67,10 @@ class PrimaryButton extends StatelessWidget {
             child: Text(
               label,
               textAlign: TextAlign.center,
-              style: AppTextStyles.button.copyWith(fontSize: context.sp(24),
-              color: AppColors.mintLight, 
+              style: AppTextStyles.button.copyWith(
+                fontSize: context.sp(24),
+                color: AppColors.mintLight,
               ),
-             
             ),
           ),
         ),
