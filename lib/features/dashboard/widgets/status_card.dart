@@ -50,10 +50,11 @@ class StatusCard extends StatelessWidget {
               ),
               boxShadow: [
                 BoxShadow(
-                  color: AppColors.teal.withValues(alpha: 0.18),
-                  blurRadius: 24,
-                  offset: const Offset(0, 12),
+                  color: AppColors.teal.withValues(alpha: 0.22),
+                  blurRadius: 4,
+                  offset: const Offset(0, 4),
                 ),
+               
               ],
             ),
 
@@ -82,6 +83,13 @@ class StatusCard extends StatelessWidget {
                                 fontSize: context.sp(18),
                                 fontWeight: FontWeight.w900,
                                 color: AppColors.teal,
+                                shadows: [
+                                  Shadow(
+                                    color: AppColors.tealDark,
+                                    blurRadius: 0,
+                                    offset: const Offset(0, 0),
+                                  ),
+                                ],
                               ),
                             ),
                           ],
@@ -92,7 +100,7 @@ class StatusCard extends StatelessWidget {
 
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             kilowatts.toStringAsFixed(1),
@@ -101,18 +109,30 @@ class StatusCard extends StatelessWidget {
                               fontWeight: FontWeight.w900,
                               color: AppColors.teal,
                               height: 0.9,
+                              shadows: [
+                                Shadow(
+                                  color: AppColors.tealDark,
+                                  blurRadius: 0,
+                                  offset: const Offset(0, 0),
+                                ),
+                              ],
                             ),
                           ),
-                          Padding(
-                            padding: EdgeInsets.only(bottom: context.r(6)),
-                            child: Text(
-                              ' kW',
-                              style: AppTextStyles.readingUnit.copyWith(
-                                fontSize: context.sp(16),
-                                fontWeight: FontWeight.w700,
-                                color: AppColors.teal.withValues(alpha: 0.85),
+                          SizedBox(width: context.r(8)),
+                          Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              SizedBox(height: context.r(10)),
+                              Text(
+                                'kW',
+                                style: AppTextStyles.readingUnit.copyWith(
+                                  fontSize: context.sp(16),
+                                  fontWeight: FontWeight.w700,
+                                  color: AppColors.teal.withValues(alpha: 0.85),
+                                ),
                               ),
-                            ),
+                            ],
                           ),
                         ],
                       ),
@@ -226,35 +246,21 @@ class _RingPainter extends CustomPainter {
       size.height - stroke,
     );
 
-    // Background arc
     final bg = Paint()
-      ..color = Colors.white.withValues(alpha: 0.55)
+      ..color = color.withOpacity(0.35)
       ..style = PaintingStyle.stroke
       ..strokeWidth = stroke
       ..strokeCap = StrokeCap.round;
 
-    canvas.drawArc(
-      rect,
-      math.pi * 0.12,
-      math.pi * 1.55,
-      false,
-      bg,
-    );
+    canvas.drawOval(rect, bg);
 
-    // Foreground arc
     final fg = Paint()
       ..color = color
       ..style = PaintingStyle.stroke
       ..strokeWidth = stroke
       ..strokeCap = StrokeCap.round;
 
-    canvas.drawArc(
-      rect,
-      math.pi * 0.78,
-      math.pi * 1.05,
-      false,
-      fg,
-    );
+    canvas.drawOval(rect, fg);
   }
 
   @override
