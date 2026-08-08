@@ -44,6 +44,15 @@ abstract final class AppAssets {
   static const String fluxaAngry = '$_svg/fluxa_angry.svg'; // 163×263
   static const String fluxaWarning = '$_svg/fluxa_warning.svg'; // 188×281
 
+  /// Energy source icons.
+  static const String iconSolar = '$_svg/icon_solar.svg'; // 39×43
+  static const String iconWind = '$_svg/icon_wind.svg'; // 38×38
+  static const String iconBattery = '$_svg/icon_battery.svg'; // 31×44
+
+  /// Circuit breaker device icons. The air conditioner is still outstanding.
+  static const String iconPc = '$_svg/icon_pc.svg'; // 38×31
+  static const String iconServer = '$_svg/icon_server.svg'; // 30×36
+
   /// The glyph beside each status reading.
   static const String iconEnergy = '$_svg/icon_energy.svg'; // 174×197, teal
   static const String iconFire = '$_svg/icon_fire.svg'; // 94×108, red
