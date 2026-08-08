@@ -59,9 +59,39 @@ enum SystemStatus {
   };
 }
 
-/// Where the power is coming from. The icons are still to be supplied, so the
-/// artwork is not referenced here yet.
-enum EnergySourceKind { solar, wind, battery }
+/// Where the power is coming from.
+enum EnergySourceKind {
+  solar,
+  wind,
+  battery;
+
+  String get icon => switch (this) {
+    EnergySourceKind.solar => AppAssets.iconSolar,
+    EnergySourceKind.wind => AppAssets.iconWind,
+    EnergySourceKind.battery => AppAssets.iconBattery,
+  };
+
+  /// Colour of this column's reading, matching the icon it sits under.
+  Color get accent => switch (this) {
+    EnergySourceKind.solar => AppColors.statusWarning,
+    EnergySourceKind.wind => AppColors.windBlue,
+    EnergySourceKind.battery => AppColors.teal,
+  };
+}
+
+/// The appliance a breaker controls.
+enum BreakerDevice {
+  pc,
+  server,
+  airConditioner;
+
+  /// Null while the artwork is outstanding — the tile falls back to a glyph.
+  String? get icon => switch (this) {
+    BreakerDevice.pc => AppAssets.iconPc,
+    BreakerDevice.server => AppAssets.iconServer,
+    BreakerDevice.airConditioner => null,
+  };
+}
 
 /// One production line in the "Energy sources" row.
 @immutable
@@ -77,12 +107,14 @@ class EnergySource {
 class CircuitBreaker {
   const CircuitBreaker({
     required this.name,
+    required this.device,
     required this.priority,
     required this.kilowatts,
     required this.isOn,
   });
 
   final String name;
+  final BreakerDevice device;
 
   /// 1-based; rendered as the "1st" / "2nd" / "3rd" pill.
   final int priority;
@@ -92,6 +124,7 @@ class CircuitBreaker {
 
   CircuitBreaker copyWith({bool? isOn}) => CircuitBreaker(
     name: name,
+    device: device,
     priority: priority,
     kilowatts: kilowatts,
     isOn: isOn ?? this.isOn,

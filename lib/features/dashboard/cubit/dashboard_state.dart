@@ -21,6 +21,40 @@ class DashboardState extends Equatable {
   final List<EnergySource> sources;
   final List<CircuitBreaker> breakers;
 
+  /// TEMPORARY: the figures from the design frame, so the screen can be seen
+  /// before the telemetry service exists. Delete once readings are real.
+  factory DashboardState.placeholder() => const DashboardState(
+    consumptionKw: 2.3,
+    sources: <EnergySource>[
+      EnergySource(kind: EnergySourceKind.solar, kilowatts: 2.3),
+      EnergySource(kind: EnergySourceKind.wind, kilowatts: 2.3),
+      EnergySource(kind: EnergySourceKind.battery, kilowatts: 2.3),
+    ],
+    breakers: <CircuitBreaker>[
+      CircuitBreaker(
+        name: 'office pcs',
+        device: BreakerDevice.pc,
+        priority: 1,
+        kilowatts: 2.3,
+        isOn: true,
+      ),
+      CircuitBreaker(
+        name: 'server room',
+        device: BreakerDevice.server,
+        priority: 2,
+        kilowatts: 2.3,
+        isOn: true,
+      ),
+      CircuitBreaker(
+        name: 'air conditioner',
+        device: BreakerDevice.airConditioner,
+        priority: 3,
+        kilowatts: 2.3,
+        isOn: false,
+      ),
+    ],
+  );
+
   DashboardState copyWith({
     SystemStatus? status,
     double? consumptionKw,

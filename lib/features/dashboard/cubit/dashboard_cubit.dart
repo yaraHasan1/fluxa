@@ -11,7 +11,7 @@ part 'dashboard_state.dart';
 /// pull them from yet. Toggling a breaker updates the view only — the command
 /// has nowhere to go until the backend exists.
 class DashboardCubit extends Cubit<DashboardState> {
-  DashboardCubit() : super(const DashboardState());
+  DashboardCubit() : super(DashboardState.placeholder());
 
   void show(DashboardState next) => emit(next);
 

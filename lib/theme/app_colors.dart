@@ -21,6 +21,9 @@ abstract final class AppColors {
   /// rather than the blue one [navy] has.
   static const Color ink = Color(0xFF163740);
 
+  /// The wind-turbine icon's blue, so its reading matches its glyph.
+  static const Color windBlue = Color(0xFF27579C);
+
   // --- Shell greys (robot chassis) --------------------------------------
   static const Color shellLight = Color(0xFFDBE1EA);
   static const Color shell = Color(0xFFCDD5E0);
