@@ -79,7 +79,7 @@ class _Disc extends StatelessWidget {
         boxShadow: <BoxShadow>[
           // Reads as the disc lifting off the wash along its lower arc.
           BoxShadow(
-            color: AppColors.tealDark.withValues(alpha: 0.34),
+            color: AppColors.tealDark.withValues(alpha: 0.18),
             blurRadius: diameter * 0.035,
             offset: Offset(0, diameter * 0.012),
           ),

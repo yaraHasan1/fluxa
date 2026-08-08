@@ -46,7 +46,7 @@ class StatusCard extends StatelessWidget {
               ),
               boxShadow: [
                 BoxShadow(
-                  color: AppColors.tealDark.withValues(alpha: 0.38),
+                  color: AppColors.teal.withValues(alpha: 0.22),
                   blurRadius: 4,
                   offset: const Offset(0, 4),
                 ),

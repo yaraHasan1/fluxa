@@ -57,6 +57,7 @@ abstract final class AppStrings {
   static const String greetingSubtitle = "here's your system overview";
 
   static const String currentConsumption = 'Current consumption';
+  static const String currentProduction = 'Current production';
   static const String energySources = 'Energy sources';
   static const String energySourcesCaption =
       'Current production for each source';

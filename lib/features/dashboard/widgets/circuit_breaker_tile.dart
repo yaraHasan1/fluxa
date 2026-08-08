@@ -49,7 +49,7 @@ class CircuitBreakerTile extends StatelessWidget {
         border: Border.all(color: AppColors.tealBright.withValues(alpha: 0.6)),
         boxShadow: <BoxShadow>[
           BoxShadow(
-            color: AppColors.tealDark.withValues(alpha: 0.32),
+            color: AppColors.glow.withValues(alpha: 0.35),
             blurRadius: context.r(12),
             offset: Offset(0, context.r(4)),
           ),

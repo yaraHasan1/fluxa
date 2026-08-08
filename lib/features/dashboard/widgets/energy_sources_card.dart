@@ -24,7 +24,7 @@ class EnergySourcesCard extends StatelessWidget {
         border: Border.all(color: AppColors.cardBorder),
         boxShadow: <BoxShadow>[
           BoxShadow(
-            color: AppColors.tealDark.withValues(alpha: 0.32),
+            color: AppColors.glow.withValues(alpha: 0.35),
             blurRadius: context.r(14),
             offset: Offset(0, context.r(5)),
           ),
