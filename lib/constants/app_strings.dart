@@ -100,6 +100,16 @@ abstract final class AppStrings {
 
   static const String organisationsListTitle = 'List of organizations';
 
+  // --- History and notifications ----------------------------------------
+  static const String historyTitle = 'history';
+  static const String notificationsTitle = 'notifications';
+  static const String breakerOff = 'off';
+
+  /// Stand-in copy from the frames, used until the backend supplies events.
+  static const String historySample = 'There was not enough production';
+  static const String notificationSample =
+      "The air conditioner's circuit breaker tripped due to insufficient power output.";
+
   static const String requestSent =
       'We will send you the approval after\nreviewing your request.';
 
