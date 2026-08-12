@@ -5,13 +5,13 @@ import 'package:fluxa/utils/responsive_extension.dart';
 
 /// The circled chevron that sits in the top-right of the deep frames.
 ///
-/// The arrow points forward, so it is wired as "continue" rather than as a
-/// back control.
+/// The arrow points forward in the artwork, but every frame uses it to step
+/// back — so that is what it announces.
 class CircleChevronButton extends StatelessWidget {
   const CircleChevronButton({
     super.key,
     required this.onPressed,
-    this.semanticLabel = 'Continue',
+    this.semanticLabel = 'Back',
   });
 
   final VoidCallback? onPressed;

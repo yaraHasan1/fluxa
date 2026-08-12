@@ -6,6 +6,8 @@ import 'package:fluxa/components/deep_button.dart';
 import 'package:fluxa/components/deep_frame.dart';
 import 'package:fluxa/constants/app_strings.dart';
 import 'package:fluxa/features/reset_password/cubit/reset_password_cubit.dart';
+import 'package:fluxa/routes/app_nav.dart';
+import 'package:fluxa/routes/app_routes.dart';
 import 'package:fluxa/theme/app_text_styles.dart';
 import 'package:fluxa/utils/responsive_extension.dart';
 
@@ -13,24 +15,36 @@ import 'package:fluxa/utils/responsive_extension.dart';
 ///
 /// Also the shape the settings "change password" frame uses.
 class ResetPasswordScreen extends StatelessWidget {
-  const ResetPasswordScreen({super.key, this.onConfirm});
+  const ResetPasswordScreen({
+    super.key,
+    this.onConfirm,
+    this.backFallback = AppRoutes.login,
+  });
 
   /// Given the chosen password. Storing it needs the auth backend.
   final ValueChanged<String>? onConfirm;
+
+  /// Where the chevron lands when there is nothing to pop. Recovery came from
+  /// the sign-in form; the settings copy came from settings.
+  final String backFallback;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider<ResetPasswordCubit>(
       create: (_) => ResetPasswordCubit(),
-      child: _ResetPasswordView(onConfirm: onConfirm),
+      child: _ResetPasswordView(
+        onConfirm: onConfirm,
+        backFallback: backFallback,
+      ),
     );
   }
 }
 
 class _ResetPasswordView extends StatefulWidget {
-  const _ResetPasswordView({this.onConfirm});
+  const _ResetPasswordView({this.onConfirm, required this.backFallback});
 
   final ValueChanged<String>? onConfirm;
+  final String backFallback;
 
   @override
   State<_ResetPasswordView> createState() => _ResetPasswordViewState();
@@ -56,7 +70,7 @@ class _ResetPasswordViewState extends State<_ResetPasswordView> {
         final ResetPasswordCubit cubit = context.read<ResetPasswordCubit>();
 
         return DeepFrame(
-          onNext: _confirm,
+          onBack: () => context.backOr(widget.backFallback),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisSize: MainAxisSize.min,

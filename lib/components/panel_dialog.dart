@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:fluxa/constants/app_strings.dart';
+import 'package:fluxa/routes/app_nav.dart';
+import 'package:fluxa/routes/app_routes.dart';
 import 'package:fluxa/theme/app_colors.dart';
 import 'package:fluxa/theme/app_text_styles.dart';
 import 'package:fluxa/utils/responsive_extension.dart';
@@ -64,7 +66,9 @@ class PanelDialog extends StatelessWidget {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: InkResponse(
-                      onTap: onClose ?? () => Navigator.of(context).maybePop(),
+                      onTap:
+                          onClose ??
+                          () => context.backOr(AppRoutes.organisationSettings),
                       radius: context.r(16),
                       child: Icon(
                         Icons.close,

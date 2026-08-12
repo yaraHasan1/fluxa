@@ -8,6 +8,7 @@ import 'package:fluxa/constants/app_assets.dart';
 import 'package:fluxa/constants/app_strings.dart';
 import 'package:fluxa/features/settings/widgets/settings_row.dart';
 import 'package:fluxa/routes/app_routes.dart';
+import 'package:fluxa/routes/app_nav.dart';
 import 'package:fluxa/theme/app_colors.dart';
 import 'package:fluxa/theme/app_text_styles.dart';
 import 'package:fluxa/utils/responsive_extension.dart';
@@ -42,7 +43,9 @@ class SettingsScreen extends StatelessWidget {
               Positioned(
                 top: context.r(8),
                 right: context.wp(0.05),
-                child: CircleChevronButton(onPressed: () => context.pop()),
+                child: CircleChevronButton(
+                  onPressed: () => context.backOr(AppRoutes.dashboard),
+                ),
               ),
 
               Padding(

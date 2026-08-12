@@ -13,13 +13,13 @@ import 'package:fluxa/utils/responsive_extension.dart';
 /// so the wash, the watermark and the corner chevron live here rather than
 /// being repeated four times.
 class DeepFrame extends StatelessWidget {
-  const DeepFrame({super.key, required this.child, this.onNext});
+  const DeepFrame({super.key, required this.child, this.onBack});
 
   /// The centred content column.
   final Widget child;
 
-  /// Wires the top-right chevron. Omitted, the chevron is not drawn.
-  final VoidCallback? onNext;
+  /// Wires the top-right chevron, which steps back. Omitted, no chevron.
+  final VoidCallback? onBack;
 
   @override
   Widget build(BuildContext context) {
@@ -44,11 +44,11 @@ class DeepFrame extends StatelessWidget {
               ),
             ),
 
-            if (onNext != null)
+            if (onBack != null)
               Positioned(
                 top: MediaQuery.paddingOf(context).top + context.r(8),
                 right: context.wp(0.05),
-                child: CircleChevronButton(onPressed: onNext),
+                child: CircleChevronButton(onPressed: onBack),
               ),
           ],
         ),

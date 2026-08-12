@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:fluxa/features/reset_password/reset_password_screen.dart';
+import 'package:fluxa/routes/app_nav.dart';
+import 'package:fluxa/routes/app_routes.dart';
 
 /// Changing the password from settings is the same frame as the last step of
 /// password recovery, so it delegates rather than duplicating the layout.
@@ -11,6 +13,9 @@ class ChangePasswordScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ResetPasswordScreen(onConfirm: (_) => context.pop());
+    return ResetPasswordScreen(
+      backFallback: AppRoutes.settings,
+      onConfirm: (_) => context.backOr(AppRoutes.settings),
+    );
   }
 }

@@ -7,6 +7,8 @@ import 'package:fluxa/components/inline_link.dart';
 import 'package:fluxa/components/otp_input.dart';
 import 'package:fluxa/constants/app_strings.dart';
 import 'package:fluxa/features/verification/cubit/verification_cubit.dart';
+import 'package:fluxa/routes/app_nav.dart';
+import 'package:fluxa/routes/app_routes.dart';
 import 'package:fluxa/theme/app_text_styles.dart';
 import 'package:fluxa/utils/responsive_extension.dart';
 
@@ -45,9 +47,9 @@ class _VerificationView extends StatelessWidget {
         void confirm() => onConfirm?.call(state.code);
 
         return DeepFrame(
-          // The code frame carries no corner chevron in the design — unlike
-          // the two frames either side of it. Confirm is the only way on.
-          onNext: null,
+          // The design shows no chevron here, but a code frame with no way
+          // out is a dead end, so it gets one like the frames either side.
+          onBack: () => context.backOr(AppRoutes.login),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[

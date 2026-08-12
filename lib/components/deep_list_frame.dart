@@ -6,6 +6,8 @@ import 'package:fluxa/components/circle_chevron_button.dart';
 import 'package:fluxa/components/gradient_background.dart';
 import 'package:fluxa/constants/app_assets.dart';
 import 'package:fluxa/constants/app_strings.dart';
+import 'package:fluxa/routes/app_nav.dart';
+import 'package:fluxa/routes/app_routes.dart';
 import 'package:fluxa/theme/app_colors.dart';
 import 'package:fluxa/theme/app_text_styles.dart';
 import 'package:fluxa/utils/responsive_extension.dart';
@@ -34,7 +36,9 @@ class DeepListFrame extends StatelessWidget {
               Positioned(
                 top: context.r(4),
                 right: context.wp(0.05),
-                child: CircleChevronButton(onPressed: () => context.pop()),
+                child: CircleChevronButton(
+                  onPressed: () => context.backOr(AppRoutes.dashboard),
+                ),
               ),
 
               Padding(
