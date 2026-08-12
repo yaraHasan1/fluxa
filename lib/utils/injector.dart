@@ -1,35 +1,23 @@
 import 'package:get_it/get_it.dart';
 
+import 'package:fluxa/api/api_client.dart';
+import 'package:fluxa/api/auth_api.dart';
+
 /// Global service locator.
 final GetIt sl = GetIt.instance;
 
 /// Wires the object graph before `runApp`.
 ///
-/// Registration order is fixed: external clients first (Dio, Firebase,
-/// storage), then data sources, then repositories, then use cases, then
-/// Cubits/Blocs — each layer depending only on the one below it.
-///
-/// Nothing is registered yet. No client is constructed and no fake is
-/// substituted until a real dependency exists to register.
+/// Registration order is fixed: the HTTP client first, then the endpoint
+/// wrappers that use it, then anything holding session state. Cubits are not
+/// registered — each screen constructs its own from these.
 Future<void> configureDependencies() async {
-  _registerExternal();
-  _registerDataSources();
-  _registerRepositories();
-  _registerUseCases();
-  _registerBlocs();
+  // Idempotent: tests configure the graph once per file, and a hot restart
+  // can run this again.
+  if (sl.isRegistered<ApiClient>()) return;
+
+  sl
+    ..registerLazySingleton<ApiClient>(ApiClient.new)
+    ..registerLazySingleton<AuthApi>(() => AuthApi(sl<ApiClient>()))
+    ..registerLazySingleton<TokenStore>(TokenStore.new);
 }
-
-/// Third-party singletons: HTTP client, Firebase apps, secure storage.
-void _registerExternal() {}
-
-/// Remote and local data sources, one per feature.
-void _registerDataSources() {}
-
-/// `domain` repository contracts bound to their `data` implementations.
-void _registerRepositories() {}
-
-/// Single-responsibility interactors consumed by the presentation layer.
-void _registerUseCases() {}
-
-/// Cubits/Blocs — registered as factories so each route gets a fresh instance.
-void _registerBlocs() {}

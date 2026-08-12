@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
+import 'package:fluxa/api/auth_api.dart';
 import 'package:fluxa/components/app_text_field.dart';
 import 'package:fluxa/components/auth_card.dart';
 import 'package:fluxa/components/fluxa_backdrop.dart';
@@ -15,6 +16,7 @@ import 'package:fluxa/features/login/cubit/login_cubit.dart';
 import 'package:fluxa/routes/app_routes.dart';
 import 'package:fluxa/theme/app_colors.dart';
 import 'package:fluxa/theme/app_text_styles.dart';
+import 'package:fluxa/utils/injector.dart';
 import 'package:fluxa/utils/responsive_extension.dart';
 
 /// Intrinsic aspect ratio of [AppAssets.fluxaSide] (159 × 251).
@@ -32,8 +34,20 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<LoginCubit>(
-      create: (_) => LoginCubit(),
-      child: const _LoginView(),
+      create: (_) => LoginCubit(sl<AuthApi>(), sl<TokenStore>()),
+      child: BlocListener<LoginCubit, LoginState>(
+        listenWhen: (LoginState a, LoginState b) => a.status != b.status,
+        listener: (BuildContext context, LoginState state) {
+          if (state.status.isSuccess) {
+            context.goNamed(AppRoutes.dashboard);
+          } else if (state.status.isFailure && state.error != null) {
+            ScaffoldMessenger.of(context)
+              ..hideCurrentSnackBar()
+              ..showSnackBar(SnackBar(content: Text(state.error!)));
+          }
+        },
+        child: const _LoginView(),
+      ),
     );
   }
 }
@@ -196,10 +210,18 @@ class _LoginViewState extends State<_LoginView> {
           ),
           SizedBox(height: context.r(18)),
           Center(
-            child: _LoginButton(
-              // No credentials are checked yet — this only makes the
-              // dashboard reachable while the auth backend is outstanding.
-              onPressed: () => context.goNamed(AppRoutes.dashboard),
+            child: BlocBuilder<LoginCubit, LoginState>(
+              buildWhen: (LoginState a, LoginState b) => a.status != b.status,
+              builder: (BuildContext context, LoginState state) => _LoginButton(
+                busy: state.status.isLoading,
+                // Null while in flight, so the button cannot be pressed twice.
+                onPressed: state.status.isLoading
+                    ? null
+                    : () => context.read<LoginCubit>().signIn(
+                        email: _email.text,
+                        password: _password.text,
+                      ),
+              ),
             ),
           ),
           SizedBox(height: context.r(14)),
@@ -217,9 +239,13 @@ class _LoginViewState extends State<_LoginView> {
 
 /// The filled action. Unlike [PrimaryButton] it carries a trailing glyph.
 class _LoginButton extends StatelessWidget {
-  const _LoginButton({required this.onPressed});
+  const _LoginButton({required this.onPressed, this.busy = false});
 
   final VoidCallback? onPressed;
+
+  /// Swaps the glyph for a spinner while the request is in flight. The label
+  /// stays put so the pill does not change width mid-press.
+  final bool busy;
 
   @override
   Widget build(BuildContext context) {
@@ -249,10 +275,18 @@ class _LoginButton extends StatelessWidget {
               // design shows against the teal pill — so it is not re-tinted.
               Padding(
                 padding: const EdgeInsets.only(top: 8),
-                child: SvgPicture.asset(
-                  AppAssets.loginIcon,
+                child: SizedBox(
                   height: context.r(30),
-                  // excludeFromSemantics: true,
+                  width: context.r(30),
+                  child: busy
+                      ? Padding(
+                          padding: EdgeInsets.all(context.r(5)),
+                          child: const CircularProgressIndicator(
+                            strokeWidth: 2.2,
+                            color: AppColors.mintLight,
+                          ),
+                        )
+                      : SvgPicture.asset(AppAssets.loginIcon),
                 ),
               ),
             ],

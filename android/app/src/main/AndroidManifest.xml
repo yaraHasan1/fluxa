@@ -1,4 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- The template declares this only in the debug and profile manifests,
+         which is enough to develop against but leaves a release build with no
+         network at all. The app talks to an API, so it belongs here too. -->
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:label="fluxa"
         android:name="${applicationName}"

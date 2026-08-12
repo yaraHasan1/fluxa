@@ -26,6 +26,9 @@ dependencies:
   # Vector assets (SVG layers are animated individually, never rasterised)
   flutter_svg: ^2.2.1
 
+  # HTTP client
+  dio: ^5.7.0
+
   # Declarative animation composition
   flutter_animate: ^4.5.2
 
