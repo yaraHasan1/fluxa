@@ -67,6 +67,16 @@ abstract final class AppStrings {
       'Current production for each source';
   static const String circuitBreakers = 'Circuit breakers';
 
+  /// State shown on a breaker row. On and off reuse the history copy.
+  static const String breakerOffline = 'n/a';
+
+  static const String breakerIsOn = 'Currently on';
+  static const String breakerIsOff = 'Currently off';
+  static const String breakerIsOffline = 'Offline — last known state';
+  static const String turnBreakerOff = 'Turn off';
+  static const String turnBreakerOn = 'Turn on';
+  static const String breakersEmpty = 'No breakers on this account yet.';
+
   static const String statusLabel = 'Status: ';
   static const String statusHealthy = 'Healthy';
   static const String statusBad = 'BAD';

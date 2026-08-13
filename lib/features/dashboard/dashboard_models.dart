@@ -97,6 +97,17 @@ enum BreakerDevice {
     BreakerDevice.server => AppAssets.iconServer,
     BreakerDevice.airConditioner => AppAssets.iconAc,
   };
+
+  /// Maps the backend's `type` onto the three glyphs the design ships.
+  ///
+  /// The backend does not publish its list of types, so this matches the ones
+  /// seen so far and falls back to [pc] — a wrong glyph is better than none.
+  static BreakerDevice fromType(String type) => switch (type.toLowerCase()) {
+    'server' || 'rack' || 'nas' => server,
+    'motor' || 'ac' || 'air_conditioner' || 'hvac' || 'heater' =>
+      airConditioner,
+    _ => pc,
+  };
 }
 
 /// One production line in the "Energy sources" row.
@@ -116,31 +127,3 @@ class EnergySource {
   final int? chargePercent;
 }
 
-/// One switchable circuit in the breakers list.
-@immutable
-class CircuitBreaker {
-  const CircuitBreaker({
-    required this.name,
-    required this.device,
-    required this.priority,
-    required this.kilowatts,
-    required this.isOn,
-  });
-
-  final String name;
-  final BreakerDevice device;
-
-  /// 1-based; rendered as the "1st" / "2nd" / "3rd" pill.
-  final int priority;
-
-  final double kilowatts;
-  final bool isOn;
-
-  CircuitBreaker copyWith({bool? isOn}) => CircuitBreaker(
-    name: name,
-    device: device,
-    priority: priority,
-    kilowatts: kilowatts,
-    isOn: isOn ?? this.isOn,
-  );
-}

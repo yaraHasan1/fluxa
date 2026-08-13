@@ -73,6 +73,9 @@ class ApiClient {
   }
 
   /// GETs a JSON array — the shape the list endpoints return.
+  ///
+  /// A paginated endpoint answers with `{"results": [...]}` instead, so both
+  /// shapes are accepted here rather than at every call site.
   Future<List<dynamic>> getList(
     String path, {
     Map<String, dynamic>? query,
@@ -82,7 +85,27 @@ class ApiClient {
         path,
         queryParameters: query,
       );
-      return _unwrap<List<dynamic>>(res);
+      final dynamic body = _unwrap<dynamic>(res);
+
+      if (body is List) return body;
+      if (body is Map && body['results'] is List) return body['results'];
+      throw const ApiException('The server sent a response we could not read.');
+    } on DioException catch (e) {
+      throw ApiException.fromDio(e);
+    }
+  }
+
+  /// GETs a JSON object — the shape the detail endpoints return.
+  Future<Map<String, dynamic>> getMap(
+    String path, {
+    Map<String, dynamic>? query,
+  }) async {
+    try {
+      final Response<dynamic> res = await _dio.get<dynamic>(
+        path,
+        queryParameters: query,
+      );
+      return _unwrap<Map<String, dynamic>>(res);
     } on DioException catch (e) {
       throw ApiException.fromDio(e);
     }

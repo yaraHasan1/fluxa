@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import 'package:fluxa/api/breakers_api.dart';
 import 'package:fluxa/components/outlined_rich_text.dart'
     show OutlinedRichText, TextRun;
 import 'package:fluxa/constants/app_strings.dart';
@@ -10,16 +11,25 @@ import 'package:fluxa/theme/app_text_styles.dart';
 import 'package:fluxa/utils/responsive_extension.dart';
 
 /// One row in the breakers list: state dot, device glyph, name, priority pill,
-/// load and the switch — on the teal slab the design uses.
+/// load and the on/off state — on the teal slab the design uses.
+///
+/// The row reports; it does not switch. Tapping it opens the control panel,
+/// which is the only place a breaker can be turned on or off.
 class CircuitBreakerTile extends StatelessWidget {
   const CircuitBreakerTile({
     super.key,
     required this.breaker,
-    required this.onChanged,
+    this.onTap,
+    this.busy = false,
   });
 
-  final CircuitBreaker breaker;
-  final ValueChanged<bool>? onChanged;
+  final Breaker breaker;
+  final VoidCallback? onTap;
+
+  /// A switch is in flight, so the state shown is not settled yet.
+  final bool busy;
+
+  BreakerDevice get _device => BreakerDevice.fromType(breaker.type);
 
   /// The pill colour steps down with priority — first is the most critical.
   Color get _priorityColour => switch (breaker.priority) {
@@ -30,8 +40,20 @@ class CircuitBreakerTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // The gap sits outside the ink, so a tap does not light up the space
+    // between rows.
+    return Padding(
+      padding: EdgeInsets.only(bottom: context.r(12)),
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(context.r(16)),
+        child: _slab(context),
+      ),
+    );
+  }
+
+  Widget _slab(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(bottom: context.r(12)),
       padding: EdgeInsets.symmetric(
         horizontal: context.r(12),
         vertical: context.r(10),
@@ -67,7 +89,7 @@ class CircuitBreakerTile extends StatelessWidget {
             ),
           ),
           SizedBox(width: context.r(10)),
-          _DeviceGlyph(device: breaker.device, size: context.r(30)),
+          _DeviceGlyph(device: _device, size: context.r(30)),
           SizedBox(width: context.r(12)),
 
           Expanded(
@@ -102,21 +124,66 @@ class CircuitBreakerTile extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(width: context.r(4)),
+          SizedBox(width: context.r(8)),
 
-          Transform.scale(
-            scale: 0.8,
-            child: Switch(
-              value: breaker.isOn,
-              onChanged: onChanged,
-              activeThumbColor: Colors.white,
-              activeTrackColor: AppColors.teal,
-              inactiveThumbColor: Colors.white,
-              inactiveTrackColor: AppColors.shellMid,
-            ),
-          ),
+          _StatePill(breaker: breaker, busy: busy),
         ],
       ),
+    );
+  }
+}
+
+/// Reports the breaker's state, and that a switch is still landing.
+class _StatePill extends StatelessWidget {
+  const _StatePill({required this.breaker, required this.busy});
+
+  final Breaker breaker;
+  final bool busy;
+
+  /// An unreachable breaker is called out, because the state beside it is the
+  /// last one the backend heard rather than a live reading.
+  String get _label => !breaker.online
+      ? AppStrings.breakerOffline
+      : breaker.isOn
+      ? AppStrings.breakerOn
+      : AppStrings.breakerOff;
+
+  Color get _colour => !breaker.online
+      ? AppColors.shellMid
+      : breaker.isOn
+      ? AppColors.teal
+      : AppColors.shell;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: context.r(52),
+      alignment: Alignment.center,
+      padding: EdgeInsets.symmetric(vertical: context.r(4)),
+      decoration: BoxDecoration(
+        color: _colour,
+        borderRadius: BorderRadius.circular(context.r(8)),
+        border: Border.all(color: AppColors.ink, width: 0.7),
+      ),
+      child: busy
+          ? SizedBox(
+              width: context.r(12),
+              height: context.r(12),
+              child: const CircularProgressIndicator(
+                strokeWidth: 1.8,
+                color: AppColors.ink,
+              ),
+            )
+          : Text(
+              _label,
+              style: AppTextStyles.helper.copyWith(
+                fontSize: context.sp(10),
+                color: breaker.isOn && breaker.online
+                    ? Colors.white
+                    : AppColors.ink,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
     );
   }
 }

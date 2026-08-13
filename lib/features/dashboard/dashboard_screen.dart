@@ -4,11 +4,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:fluxa/animations/animation_constants.dart';
+import 'package:fluxa/api/breakers_api.dart';
 import 'package:fluxa/components/gradient_background.dart';
 import 'package:fluxa/constants/app_assets.dart';
 import 'package:fluxa/constants/app_strings.dart';
 import 'package:fluxa/features/dashboard/cubit/dashboard_cubit.dart';
 import 'package:fluxa/features/dashboard/dashboard_models.dart';
+import 'package:fluxa/features/dashboard/widgets/breaker_control_sheet.dart';
 import 'package:fluxa/features/dashboard/widgets/circuit_breaker_tile.dart';
 import 'package:fluxa/features/dashboard/widgets/dashboard_backdrop.dart';
 import 'package:fluxa/features/dashboard/widgets/energy_sources_card.dart';
@@ -17,6 +19,7 @@ import 'package:fluxa/features/dashboard/widgets/status_card.dart';
 import 'package:fluxa/routes/app_routes.dart';
 import 'package:fluxa/theme/app_colors.dart';
 import 'package:fluxa/theme/app_text_styles.dart';
+import 'package:fluxa/utils/injector.dart';
 import 'package:fluxa/utils/responsive_extension.dart';
 
 /// System overview: greeting, status, production and the breaker list.
@@ -29,7 +32,7 @@ class DashboardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<DashboardCubit>(
-      create: (_) => DashboardCubit(),
+      create: (_) => DashboardCubit(sl<BreakersApi>())..load(),
       child: _DashboardView(userName: userName),
     );
   }
@@ -96,13 +99,7 @@ class _DashboardView extends StatelessWidget {
 
                         _SectionTitle(AppStrings.circuitBreakers),
                         SizedBox(height: context.r(8)),
-                        for (int i = 0; i < state.breakers.length; i++)
-                          CircuitBreakerTile(
-                            breaker: state.breakers[i],
-                            onChanged: (bool on) => context
-                                .read<DashboardCubit>()
-                                .toggleBreaker(i, on),
-                          ),
+                        _Breakers(state: state),
 
                         SizedBox(height: context.hp(0.03)),
                       ],
@@ -114,6 +111,70 @@ class _DashboardView extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+/// The breaker list, or what is standing in for it while it loads or fails.
+///
+/// A row never switches anything: tapping one opens the control panel, which
+/// is where a breaker is turned on or off.
+class _Breakers extends StatelessWidget {
+  const _Breakers({required this.state});
+
+  final DashboardState state;
+
+  @override
+  Widget build(BuildContext context) {
+    if (state.breakersStatus.isLoading && state.breakers.isEmpty) {
+      return Padding(
+        padding: EdgeInsets.symmetric(vertical: context.r(20)),
+        child: const Center(
+          child: SizedBox(
+            width: 26,
+            height: 26,
+            child: CircularProgressIndicator(
+              strokeWidth: 2.4,
+              color: AppColors.tealDark,
+            ),
+          ),
+        ),
+      );
+    }
+
+    if (state.breakers.isEmpty) {
+      return Padding(
+        padding: EdgeInsets.symmetric(vertical: context.r(20)),
+        child: Text(
+          state.breakersStatus.isFailure
+              ? state.error ?? AppStrings.genericError
+              : AppStrings.breakersEmpty,
+          textAlign: TextAlign.center,
+          style: AppTextStyles.helper.copyWith(
+            fontSize: context.sp(12),
+            color: AppColors.tealDark,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      );
+    }
+
+    final DashboardCubit cubit = context.read<DashboardCubit>();
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: <Widget>[
+        for (final Breaker breaker in state.breakers)
+          CircuitBreakerTile(
+            breaker: breaker,
+            busy: state.isSwitching(breaker.deviceId),
+            onTap: () => showBreakerControl(
+              context,
+              cubit: cubit,
+              deviceId: breaker.deviceId,
+            ),
+          ),
+      ],
     );
   }
 }
