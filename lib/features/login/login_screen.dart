@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:fluxa/api/auth_api.dart';
+import 'package:fluxa/api/token_store.dart';
 import 'package:fluxa/components/app_text_field.dart';
 import 'package:fluxa/components/auth_card.dart';
 import 'package:fluxa/components/fluxa_backdrop.dart';
@@ -11,6 +12,7 @@ import 'package:fluxa/components/gradient_background.dart';
 import 'package:fluxa/components/inline_link.dart';
 import 'package:fluxa/components/soft_shadow.dart';
 import 'package:fluxa/constants/app_assets.dart';
+import 'package:fluxa/components/app_message.dart';
 import 'package:fluxa/constants/app_strings.dart';
 import 'package:fluxa/features/login/cubit/login_cubit.dart';
 import 'package:fluxa/routes/app_routes.dart';
@@ -39,11 +41,12 @@ class LoginScreen extends StatelessWidget {
         listenWhen: (LoginState a, LoginState b) => a.status != b.status,
         listener: (BuildContext context, LoginState state) {
           if (state.status.isSuccess) {
+            showAppMessage(context, AppStrings.signedIn);
             context.goNamed(AppRoutes.dashboard);
           } else if (state.status.isFailure && state.error != null) {
-            ScaffoldMessenger.of(context)
-              ..hideCurrentSnackBar()
-              ..showSnackBar(SnackBar(content: Text(state.error!)));
+            // The server's own wording, not a generic line — a wrong password
+            // and an unapproved account are different problems.
+            showAppMessage(context, state.error!, isError: true);
           }
         },
         child: const _LoginView(),

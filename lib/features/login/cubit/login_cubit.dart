@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:fluxa/api/api_client.dart';
 import 'package:fluxa/api/auth_api.dart';
+import 'package:fluxa/api/token_store.dart';
 import 'package:fluxa/api/request_status.dart';
 
 part 'login_state.dart';

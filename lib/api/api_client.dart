@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
 
+import 'package:fluxa/api/token_store.dart';
+
 /// Where the backend lives.
 ///
 /// The ngrok host rotates, so this is the one line to change when it does.
@@ -15,8 +17,9 @@ abstract final class ApiConfig {
 /// One place that knows the base URL, the headers and how a failure turns into
 /// an [ApiException] — so no repository or cubit repeats any of it.
 class ApiClient {
-  ApiClient({Dio? dio})
-    : _dio =
+  ApiClient({Dio? dio, TokenStore? tokens})
+    : _tokens = tokens,
+      _dio =
           dio ??
           Dio(
             BaseOptions(
@@ -32,9 +35,24 @@ class ApiClient {
               // thrown away as a DioException with no detail.
               validateStatus: (_) => true,
             ),
-          );
+          ) {
+    // One interceptor carries the session, so no endpoint builds an
+    // Authorization header of its own.
+    _dio.interceptors.add(
+      InterceptorsWrapper(
+        onRequest: (RequestOptions options, RequestInterceptorHandler handler) {
+          final String? access = _tokens?.tokens?.access;
+          if (access != null && access.isNotEmpty) {
+            options.headers['Authorization'] = 'Bearer $access';
+          }
+          handler.next(options);
+        },
+      ),
+    );
+  }
 
   final Dio _dio;
+  final TokenStore? _tokens;
 
   /// POSTs [fields] as multipart form data, which is what the endpoints expect.
   ///
@@ -48,18 +66,35 @@ class ApiClient {
         path,
         data: FormData.fromMap(fields),
       );
-      return _unwrap(res);
+      return _unwrap<Map<String, dynamic>>(res);
     } on DioException catch (e) {
       throw ApiException.fromDio(e);
     }
   }
 
-  Map<String, dynamic> _unwrap(Response<dynamic> res) {
+  /// GETs a JSON array — the shape the list endpoints return.
+  Future<List<dynamic>> getList(
+    String path, {
+    Map<String, dynamic>? query,
+  }) async {
+    try {
+      final Response<dynamic> res = await _dio.get<dynamic>(
+        path,
+        queryParameters: query,
+      );
+      return _unwrap<List<dynamic>>(res);
+    } on DioException catch (e) {
+      throw ApiException.fromDio(e);
+    }
+  }
+
+  /// Checks the status, then hands back the body as [T].
+  T _unwrap<T>(Response<dynamic> res) {
     final int status = res.statusCode ?? 0;
     final dynamic body = res.data;
 
     if (status >= 200 && status < 300) {
-      if (body is Map<String, dynamic>) return body;
+      if (body is T) return body as T;
       throw const ApiException('The server sent a response we could not read.');
     }
 

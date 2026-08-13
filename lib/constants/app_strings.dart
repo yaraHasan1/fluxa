@@ -104,6 +104,12 @@ abstract final class AppStrings {
   static const String historyTitle = 'history';
   static const String notificationsTitle = 'notifications';
   static const String breakerOff = 'off';
+  static const String breakerOn = "on";
+  static const String actionSwitchedOn = "The breaker was switched on";
+  static const String actionSwitchedOff = "The breaker was switched off";
+  static const String historyEmpty = "No switches recorded yet.";
+  static const String genericError = "Something went wrong. Please try again.";
+  static const String signedIn = "Signed in successfully.";
 
   /// Stand-in copy from the frames, used until the backend supplies events.
   static const String historySample = 'There was not enough production';
