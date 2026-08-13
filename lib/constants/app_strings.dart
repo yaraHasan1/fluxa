@@ -105,6 +105,11 @@ abstract final class AppStrings {
   static const String notificationsTitle = 'notifications';
   static const String breakerOff = 'off';
   static const String breakerOn = "on";
+  static const String breakerStatusTitle = "Breaker status";
+  static const String telemetryTitle = "Telemetry";
+  static const String noReadings = "No readings were captured.";
+  static const String yes = "Yes";
+  static const String no = "No";
   static const String actionSwitchedOn = "The breaker was switched on";
   static const String actionSwitchedOff = "The breaker was switched off";
   static const String historyEmpty = "No switches recorded yet.";

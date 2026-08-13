@@ -8,6 +8,7 @@ import 'package:fluxa/components/deep_list_frame.dart';
 import 'package:fluxa/constants/app_assets.dart';
 import 'package:fluxa/constants/app_strings.dart';
 import 'package:fluxa/features/history/cubit/history_cubit.dart';
+import 'package:fluxa/features/history/widgets/breaker_readings_sheet.dart';
 import 'package:fluxa/theme/app_colors.dart';
 import 'package:fluxa/theme/app_text_styles.dart';
 import 'package:fluxa/utils/injector.dart';
@@ -103,15 +104,15 @@ class _HistoryRow extends StatelessWidget {
 
   /// Formatted as the frame writes it: `9:30 12/7/2026`.
   String get _stamp {
-    final DateTime? d = entry.at;
+    final DateTime? d = entry.createdAt;
     if (d == null) return '';
     final String minute = d.minute.toString().padLeft(2, '0');
     return '${d.hour}:$minute ${d.day}/${d.month}/${d.year}';
   }
 
-  /// The backend leaves `reason` empty on most rows, so the action itself is
-  /// what gets described.
-  String get _message => entry.reason.isNotEmpty
+  /// The backend leaves `reason` empty on every row so far, so the action
+  /// itself is what gets described when there is no stated cause.
+  String get _reason => entry.reason.isNotEmpty
       ? entry.reason
       : entry.turnedOff
       ? AppStrings.actionSwitchedOff
@@ -119,91 +120,130 @@ class _HistoryRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(
-        horizontal: context.r(10),
-        vertical: context.r(8),
-      ),
-      decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.9),
-        borderRadius: BorderRadius.circular(context.r(12)),
-        border: Border.all(color: AppColors.fieldBorder),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              // The log does not say what kind of appliance a breaker is, so
-              // every row carries the generic device glyph.
-              SvgPicture.asset(
-                AppAssets.iconPc,
-                height: context.r(24),
-                fit: BoxFit.contain,
-                excludeFromSemantics: true,
-              ),
-              SizedBox(height: context.r(3)),
-              SizedBox(
-                width: context.wp(0.16),
-                child: Text(
-                  entry.breakerName,
-                  textAlign: TextAlign.center,
-                  overflow: TextOverflow.ellipsis,
-                  style: AppTextStyles.helper.copyWith(
-                    fontSize: context.sp(8),
-                    color: AppColors.ink,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          SizedBox(width: context.r(10)),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+    return InkWell(
+      onTap: entry.hasReadings
+          ? () => showBreakerReadings(context, entry)
+          : null,
+      borderRadius: BorderRadius.circular(context.r(12)),
+      child: Container(
+        padding: EdgeInsets.symmetric(
+          horizontal: context.r(10),
+          vertical: context.r(8),
+        ),
+        decoration: BoxDecoration(
+          color: Colors.white.withValues(alpha: 0.9),
+          borderRadius: BorderRadius.circular(context.r(12)),
+          border: Border.all(color: AppColors.fieldBorder),
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Expanded(
-                      child: Text(
-                        _message,
-                        style: AppTextStyles.helper.copyWith(
-                          fontSize: context.sp(10),
-                          color: AppColors.teal,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                    Text(
-                      entry.turnedOff
-                          ? AppStrings.breakerOff
-                          : AppStrings.breakerOn,
-                      style: AppTextStyles.helper.copyWith(
-                        fontSize: context.sp(10),
-                        color: AppColors.ink,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ],
+                // The log does not say what kind of appliance a breaker is, so
+                // every row carries the generic device glyph.
+                SvgPicture.asset(
+                  AppAssets.iconPc,
+                  height: context.r(24),
+                  fit: BoxFit.contain,
+                  excludeFromSemantics: true,
                 ),
-                SizedBox(height: context.r(6)),
-                Align(
-                  alignment: Alignment.centerRight,
+                SizedBox(height: context.r(3)),
+                SizedBox(
+                  width: context.wp(0.16),
                   child: Text(
-                    _stamp,
+                    entry.breakerName,
+                    textAlign: TextAlign.center,
+                    overflow: TextOverflow.ellipsis,
                     style: AppTextStyles.helper.copyWith(
-                      fontSize: context.sp(7.5),
-                      color: AppColors.shellDark,
+                      fontSize: context.sp(8),
+                      color: AppColors.ink,
                     ),
                   ),
                 ),
               ],
             ),
-          ),
-        ],
+            SizedBox(width: context.r(10)),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Expanded(
+                        child: Text(
+                          _reason,
+                          style: AppTextStyles.helper.copyWith(
+                            fontSize: context.sp(10),
+                            color: AppColors.teal,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                      Text(
+                        entry.turnedOff
+                            ? AppStrings.breakerOff
+                            : AppStrings.breakerOn,
+                        style: AppTextStyles.helper.copyWith(
+                          fontSize: context.sp(10),
+                          color: AppColors.ink,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: context.r(5)),
+                  Row(
+                    children: <Widget>[
+                      if (entry.source.isNotEmpty) _SourceChip(entry.source),
+                      const Spacer(),
+                      Text(
+                        _stamp,
+                        style: AppTextStyles.helper.copyWith(
+                          fontSize: context.sp(7.5),
+                          color: AppColors.shellDark,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// The `manual` / `automatic` tag under a row.
+class _SourceChip extends StatelessWidget {
+  const _SourceChip(this.source);
+
+  final String source;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(
+        horizontal: context.r(6),
+        vertical: context.r(1),
+      ),
+      decoration: BoxDecoration(
+        color: AppColors.mint.withValues(alpha: 0.5),
+        borderRadius: BorderRadius.circular(context.r(5)),
+        border: Border.all(color: AppColors.tealBright.withValues(alpha: 0.6)),
+      ),
+      child: Text(
+        source,
+        style: AppTextStyles.helper.copyWith(
+          fontSize: context.sp(7.5),
+          color: AppColors.tealDark,
+          fontWeight: FontWeight.w700,
+        ),
       ),
     );
   }
