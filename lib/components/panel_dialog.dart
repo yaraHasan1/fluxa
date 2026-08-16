@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:fluxa/components/back_scope.dart';
 import 'package:fluxa/constants/app_strings.dart';
 import 'package:fluxa/routes/app_nav.dart';
 import 'package:fluxa/routes/app_routes.dart';
@@ -20,6 +21,7 @@ class PanelDialog extends StatelessWidget {
     this.onClose,
     this.onSubmit,
     this.submitLabel = AppStrings.submit,
+    this.upRoute = AppRoutes.organisationSettings,
   });
 
   final String title;
@@ -28,12 +30,20 @@ class PanelDialog extends StatelessWidget {
   /// Defaults to popping the route.
   final VoidCallback? onClose;
 
+  /// Where the system back lands when there is nothing to pop. These panels
+  /// are all steps of the organisation flow, so that is the default.
+  final String upRoute;
+
   /// Omitted, no action row is drawn.
   final VoidCallback? onSubmit;
   final String submitLabel;
 
   @override
   Widget build(BuildContext context) {
+    return BackScope(upRoute: upRoute, child: _panel(context));
+  }
+
+  Widget _panel(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.navy.withValues(alpha: 0.45),
       body: SafeArea(
@@ -67,8 +77,7 @@ class PanelDialog extends StatelessWidget {
                     alignment: Alignment.centerLeft,
                     child: InkResponse(
                       onTap:
-                          onClose ??
-                          () => context.backOr(AppRoutes.organisationSettings),
+                          onClose ?? () => context.backOr(upRoute),
                       radius: context.r(16),
                       child: Icon(
                         Icons.close,

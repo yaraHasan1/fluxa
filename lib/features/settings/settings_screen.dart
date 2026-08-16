@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
+import 'package:fluxa/components/back_scope.dart';
 import 'package:fluxa/components/circle_chevron_button.dart';
 import 'package:fluxa/components/gradient_background.dart';
 import 'package:fluxa/constants/app_assets.dart';
@@ -20,6 +21,10 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return BackScope(upRoute: AppRoutes.dashboard, child: _panel(context));
+  }
+
+  Widget _panel(BuildContext context) {
     return Scaffold(
       body: GradientBackground(
         gradient: AppColors.deepGradient,

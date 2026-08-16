@@ -6,7 +6,6 @@ import 'package:fluxa/components/deep_button.dart';
 import 'package:fluxa/components/deep_frame.dart';
 import 'package:fluxa/constants/app_strings.dart';
 import 'package:fluxa/features/reset_password/cubit/reset_password_cubit.dart';
-import 'package:fluxa/routes/app_nav.dart';
 import 'package:fluxa/routes/app_routes.dart';
 import 'package:fluxa/theme/app_text_styles.dart';
 import 'package:fluxa/utils/responsive_extension.dart';
@@ -70,7 +69,7 @@ class _ResetPasswordViewState extends State<_ResetPasswordView> {
         final ResetPasswordCubit cubit = context.read<ResetPasswordCubit>();
 
         return DeepFrame(
-          onBack: () => context.backOr(widget.backFallback),
+          upRoute: widget.backFallback,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisSize: MainAxisSize.min,

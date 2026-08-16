@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
+import 'package:fluxa/components/back_scope.dart';
+import 'package:fluxa/components/circle_chevron_button.dart';
 import 'package:fluxa/components/gradient_background.dart';
 import 'package:fluxa/constants/app_assets.dart';
 import 'package:fluxa/constants/app_strings.dart';
+import 'package:fluxa/routes/app_nav.dart';
 import 'package:fluxa/routes/app_routes.dart';
 import 'package:fluxa/theme/app_colors.dart';
 import 'package:fluxa/theme/app_text_styles.dart';
@@ -19,10 +22,23 @@ class RequestSentScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return BackScope(upRoute: AppRoutes.settings, child: _panel(context));
+  }
+
+  Widget _panel(BuildContext context) {
     return Scaffold(
       body: GradientBackground(
         child: SafeArea(
-          child: Center(
+          child: Stack(
+            children: <Widget>[
+              Positioned(
+                top: context.r(8),
+                right: context.wp(0.05),
+                child: CircleChevronButton(
+                  onPressed: () => context.backOr(AppRoutes.settings),
+                ),
+              ),
+              Center(
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: context.wp(0.12)),
               child: Container(
@@ -65,7 +81,9 @@ class RequestSentScreen extends StatelessWidget {
                   ],
                 ),
               ),
-            ),
+                ),
+              ),
+            ],
           ),
         ),
       ),

@@ -4,7 +4,6 @@ import 'package:fluxa/components/app_text_field.dart';
 import 'package:fluxa/components/deep_button.dart';
 import 'package:fluxa/components/deep_frame.dart';
 import 'package:fluxa/constants/app_strings.dart';
-import 'package:fluxa/routes/app_nav.dart';
 import 'package:fluxa/routes/app_routes.dart';
 import 'package:fluxa/theme/app_text_styles.dart';
 import 'package:fluxa/utils/responsive_extension.dart';
@@ -37,7 +36,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return DeepFrame(
-      onBack: () => context.backOr(AppRoutes.login),
+      upRoute: AppRoutes.login,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[

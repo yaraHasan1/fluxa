@@ -7,6 +7,7 @@ import 'package:fluxa/api/auth_api.dart';
 import 'package:fluxa/api/token_store.dart';
 import 'package:fluxa/components/app_text_field.dart';
 import 'package:fluxa/components/auth_card.dart';
+import 'package:fluxa/components/back_scope.dart';
 import 'package:fluxa/components/fluxa_backdrop.dart';
 import 'package:fluxa/components/gradient_background.dart';
 import 'package:fluxa/components/inline_link.dart';
@@ -78,7 +79,11 @@ class _LoginViewState extends State<_LoginView> {
     final double width = context.screenWidth;
     final double mascotWidth = width * _mascotWidthFactor;
 
-    return Scaffold(
+    // Back from the sign-in form returns to the welcome frame rather than
+    // closing the app, which is what an empty stack would otherwise do.
+    return BackScope(
+      upRoute: AppRoutes.onboarding,
+      child: Scaffold(
       body: GradientBackground(
         child: Stack(
           children: <Widget>[
@@ -173,6 +178,7 @@ class _LoginViewState extends State<_LoginView> {
               ),
             ),
           ],
+          ),
         ),
       ),
     );

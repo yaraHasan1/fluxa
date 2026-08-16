@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 
 import 'package:fluxa/components/app_text_field.dart';
 import 'package:fluxa/components/auth_card.dart';
+import 'package:fluxa/components/back_scope.dart';
 import 'package:fluxa/components/brand_blob.dart';
 import 'package:fluxa/components/fluxa_backdrop.dart';
 import 'package:fluxa/components/gradient_background.dart';
@@ -70,7 +71,9 @@ class _SignupViewState extends State<_SignupView> {
     final double mascotWidth = width * _mascotWidthFactor;
     final double blob = 580;
 
-    return Scaffold(
+    return BackScope(
+      upRoute: AppRoutes.login,
+      child: Scaffold(
       body: GradientBackground(
         child: Stack(
           children: <Widget>[
@@ -141,6 +144,7 @@ class _SignupViewState extends State<_SignupView> {
             ),
           ],
         ),
+      ),
       ),
     );
   }

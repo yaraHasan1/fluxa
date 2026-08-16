@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
+import 'package:fluxa/components/back_scope.dart';
 import 'package:fluxa/components/circle_chevron_button.dart';
 import 'package:fluxa/components/gradient_background.dart';
 import 'package:fluxa/constants/app_assets.dart';
@@ -18,15 +19,28 @@ import 'package:fluxa/utils/responsive_extension.dart';
 /// Both screens are the same frame with different rows, so the chrome lives
 /// here and each supplies only its list.
 class DeepListFrame extends StatelessWidget {
-  const DeepListFrame({super.key, required this.title, required this.children});
+  const DeepListFrame({
+    super.key,
+    required this.title,
+    required this.children,
+    this.upRoute = AppRoutes.dashboard,
+  });
 
   final String title;
 
   /// The rows inside the panel.
   final List<Widget> children;
 
+  /// Where the chevron and the system back both lead. Both lists hang off the
+  /// dashboard, so that is the default.
+  final String upRoute;
+
   @override
   Widget build(BuildContext context) {
+    return BackScope(upRoute: upRoute, child: _frame(context));
+  }
+
+  Widget _frame(BuildContext context) {
     return Scaffold(
       body: GradientBackground(
         gradient: AppColors.deepGradient,
@@ -37,7 +51,7 @@ class DeepListFrame extends StatelessWidget {
                 top: context.r(4),
                 right: context.wp(0.05),
                 child: CircleChevronButton(
-                  onPressed: () => context.backOr(AppRoutes.dashboard),
+                  onPressed: () => context.backOr(upRoute),
                 ),
               ),
 

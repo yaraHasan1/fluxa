@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
+import 'package:fluxa/components/back_scope.dart';
 import 'package:fluxa/components/circle_chevron_button.dart';
 import 'package:fluxa/components/fluxa_backdrop.dart';
 import 'package:fluxa/components/gradient_background.dart';
+import 'package:fluxa/routes/app_nav.dart';
 import 'package:fluxa/theme/app_colors.dart';
 import 'package:fluxa/utils/responsive_extension.dart';
 
@@ -13,16 +15,24 @@ import 'package:fluxa/utils/responsive_extension.dart';
 /// so the wash, the watermark and the corner chevron live here rather than
 /// being repeated four times.
 class DeepFrame extends StatelessWidget {
-  const DeepFrame({super.key, required this.child, this.onBack});
+  const DeepFrame({super.key, required this.child, this.upRoute});
 
   /// The centred content column.
   final Widget child;
 
-  /// Wires the top-right chevron, which steps back. Omitted, no chevron.
-  final VoidCallback? onBack;
+  /// The route one level up. It wires the top-right chevron *and* the system
+  /// back, so the two cannot disagree. Omitted, the frame has neither.
+  final String? upRoute;
 
   @override
   Widget build(BuildContext context) {
+    final String? up = upRoute;
+    if (up == null) return _frame(context);
+
+    return BackScope(upRoute: up, child: _frame(context));
+  }
+
+  Widget _frame(BuildContext context) {
     return Scaffold(
       body: GradientBackground(
         gradient: AppColors.deepGradient,
@@ -44,11 +54,13 @@ class DeepFrame extends StatelessWidget {
               ),
             ),
 
-            if (onBack != null)
+            if (upRoute != null)
               Positioned(
                 top: MediaQuery.paddingOf(context).top + context.r(8),
                 right: context.wp(0.05),
-                child: CircleChevronButton(onPressed: onBack),
+                child: CircleChevronButton(
+                  onPressed: () => context.backOr(upRoute!),
+                ),
               ),
           ],
         ),
