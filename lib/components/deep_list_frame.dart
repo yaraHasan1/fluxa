@@ -62,7 +62,8 @@ class DeepListFrame extends StatelessWidget {
                   children: <Widget>[
                     // Sits close to the top: the panel below is the screen,
                     // and every row it can show is worth the space.
-                    SizedBox(height: context.hp(0.018)),
+                    // Reduced top gap so the title sits higher on the screen.
+                    SizedBox(height: context.hp(0.008)),
                     _Header(title: title),
                     SizedBox(height: context.r(10)),
                     Expanded(
