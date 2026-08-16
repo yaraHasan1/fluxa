@@ -46,7 +46,9 @@ class DeepListFrame extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
-                    SizedBox(height: context.hp(0.055)),
+                    // Sits close to the top: the panel below is the screen,
+                    // and every row it can show is worth the space.
+                    SizedBox(height: context.hp(0.018)),
                     _Header(title: title),
                     SizedBox(height: context.r(10)),
                     Expanded(
@@ -93,14 +95,14 @@ class _Header extends StatelessWidget {
           child: Text(
             title,
             style: AppTextStyles.wordmark.copyWith(
-              fontSize: context.sp(26),
+              fontSize: context.sp(34),
               color: AppColors.tealDark,
             ),
           ),
         ),
         SvgPicture.asset(
           AppAssets.fluxaSide,
-          width: context.wp(0.17),
+          width: context.wp(0.26),
           fit: BoxFit.contain,
           semanticsLabel: AppStrings.semanticsLogo,
         ),

@@ -90,7 +90,7 @@ class _Note extends StatelessWidget {
     text,
     textAlign: TextAlign.center,
     style: AppTextStyles.helper.copyWith(
-      fontSize: context.sp(12),
+      fontSize: context.sp(14),
       color: AppColors.tealDark,
       fontWeight: FontWeight.w600,
     ),
@@ -127,8 +127,8 @@ class _HistoryRow extends StatelessWidget {
       borderRadius: BorderRadius.circular(context.r(12)),
       child: Container(
         padding: EdgeInsets.symmetric(
-          horizontal: context.r(10),
-          vertical: context.r(8),
+          horizontal: context.r(12),
+          vertical: context.r(11),
         ),
         decoration: BoxDecoration(
           color: Colors.white.withValues(alpha: 0.9),
@@ -136,20 +136,23 @@ class _HistoryRow extends StatelessWidget {
           border: Border.all(color: AppColors.fieldBorder),
         ),
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          // The glyph sits level with the row rather than pinned to its top,
+          // which is how the breaker tiles on the dashboard read.
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 // The log does not say what kind of appliance a breaker is, so
-                // every row carries the generic device glyph.
+                // every row carries the generic device glyph — at the size the
+                // dashboard draws its own.
                 SvgPicture.asset(
                   AppAssets.iconPc,
-                  height: context.r(24),
+                  height: context.r(30),
                   fit: BoxFit.contain,
                   excludeFromSemantics: true,
                 ),
-                SizedBox(height: context.r(3)),
+                SizedBox(height: context.r(4)),
                 SizedBox(
                   width: context.wp(0.16),
                   child: Text(
@@ -157,8 +160,9 @@ class _HistoryRow extends StatelessWidget {
                     textAlign: TextAlign.center,
                     overflow: TextOverflow.ellipsis,
                     style: AppTextStyles.helper.copyWith(
-                      fontSize: context.sp(8),
+                      fontSize: context.sp(10),
                       color: AppColors.ink,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                 ),
@@ -177,18 +181,20 @@ class _HistoryRow extends StatelessWidget {
                         child: Text(
                           _reason,
                           style: AppTextStyles.helper.copyWith(
-                            fontSize: context.sp(10),
+                            fontSize: context.sp(13),
                             color: AppColors.teal,
                             fontWeight: FontWeight.w600,
+                            height: 1.3,
                           ),
                         ),
                       ),
+                      SizedBox(width: context.r(6)),
                       Text(
                         entry.turnedOff
                             ? AppStrings.breakerOff
                             : AppStrings.breakerOn,
                         style: AppTextStyles.helper.copyWith(
-                          fontSize: context.sp(10),
+                          fontSize: context.sp(13),
                           color: AppColors.ink,
                           fontWeight: FontWeight.w700,
                         ),
@@ -203,8 +209,9 @@ class _HistoryRow extends StatelessWidget {
                       Text(
                         _stamp,
                         style: AppTextStyles.helper.copyWith(
-                          fontSize: context.sp(7.5),
+                          fontSize: context.sp(10),
                           color: AppColors.shellDark,
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
                     ],
@@ -229,18 +236,18 @@ class _SourceChip extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(
-        horizontal: context.r(6),
-        vertical: context.r(1),
+        horizontal: context.r(8),
+        vertical: context.r(2),
       ),
       decoration: BoxDecoration(
         color: AppColors.mint.withValues(alpha: 0.5),
-        borderRadius: BorderRadius.circular(context.r(5)),
+        borderRadius: BorderRadius.circular(context.r(6)),
         border: Border.all(color: AppColors.tealBright.withValues(alpha: 0.6)),
       ),
       child: Text(
         source,
         style: AppTextStyles.helper.copyWith(
-          fontSize: context.sp(7.5),
+          fontSize: context.sp(10),
           color: AppColors.tealDark,
           fontWeight: FontWeight.w700,
         ),
