@@ -18,13 +18,19 @@ class ProductionCard extends StatelessWidget {
   const ProductionCard({
     super.key,
     required this.kind,
-    required this.kilowatts,
+    required this.value,
+    required this.unit,
     required this.caption,
     this.badge,
   });
 
   final EnergySourceKind kind;
-  final double kilowatts;
+
+  /// Null until telemetry reports this source.
+  final double? value;
+
+  /// What [value] is measured in; the three sources do not share one.
+  final String unit;
 
   /// The explanatory line under the figure.
   final String caption;
@@ -36,7 +42,7 @@ class ProductionCard extends StatelessWidget {
   /// The card's edge, which is what distinguishes the three at a glance.
   Color get _edge => switch (kind) {
     EnergySourceKind.solar => AppColors.statusWarning,
-    EnergySourceKind.wind => AppColors.shellDark,
+    EnergySourceKind.grid => AppColors.shellDark,
     EnergySourceKind.battery => AppColors.teal,
   };
 
@@ -44,7 +50,7 @@ class ProductionCard extends StatelessWidget {
   /// as in the design.
   Color get _figure => switch (kind) {
     EnergySourceKind.solar => AppColors.statusWarningDeep,
-    EnergySourceKind.wind => AppColors.shellDark,
+    EnergySourceKind.grid => AppColors.shellDark,
     EnergySourceKind.battery => AppColors.shellDark,
   };
 
@@ -89,14 +95,14 @@ class ProductionCard extends StatelessWidget {
             strokeWidth: context.r(2),
             spans: <TextRun>[
               TextRun(
-                kilowatts.toStringAsFixed(1),
+                value?.toStringAsFixed(1) ?? AppStrings.noReading,
                 AppTextStyles.reading.copyWith(
                   fontSize: context.sp(28),
                   color: _figure,
                 ),
               ),
               TextRun(
-                ' ${AppStrings.kilowattSuffix}',
+                ' $unit',
                 AppTextStyles.readingUnit.copyWith(
                   fontSize: context.sp(13),
                   color: AppColors.ink,

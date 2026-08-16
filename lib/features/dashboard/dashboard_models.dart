@@ -60,28 +60,32 @@ enum SystemStatus {
 }
 
 /// Where the power is coming from.
+///
+/// [grid] was named `wind` while the screen ran on stand-in figures; the glyph
+/// has always been a pylon, and the reading behind it is mains voltage.
 enum EnergySourceKind {
   solar,
-  wind,
+  grid,
   battery;
 
   String get icon => switch (this) {
     EnergySourceKind.solar => AppAssets.iconSolar,
-    EnergySourceKind.wind => AppAssets.iconWind,
+    EnergySourceKind.grid => AppAssets.iconWind,
     EnergySourceKind.battery => AppAssets.iconBattery,
   };
 
-  /// The line under the figure on the expanded card.
+  /// The line under the figure on the expanded card. Each source reports a
+  /// different quantity, so each says which one.
   String get productionCaption => switch (this) {
-    EnergySourceKind.solar => AppStrings.productionCaptionEnergy,
-    EnergySourceKind.wind => AppStrings.productionCaptionElectricity,
-    EnergySourceKind.battery => AppStrings.productionCaptionElectricity,
+    EnergySourceKind.solar => AppStrings.solarCaption,
+    EnergySourceKind.grid => AppStrings.gridCaption,
+    EnergySourceKind.battery => AppStrings.batteryCaption,
   };
 
   /// Colour of this column's reading, matching the icon it sits under.
   Color get accent => switch (this) {
     EnergySourceKind.solar => AppColors.statusWarning,
-    EnergySourceKind.wind => AppColors.windBlue,
+    EnergySourceKind.grid => AppColors.windBlue,
     EnergySourceKind.battery => AppColors.teal,
   };
 }
@@ -115,12 +119,19 @@ enum BreakerDevice {
 class EnergySource {
   const EnergySource({
     required this.kind,
-    required this.kilowatts,
+    required this.value,
+    required this.unit,
     this.chargePercent,
   });
 
   final EnergySourceKind kind;
-  final double kilowatts;
+
+  /// The figure itself, or null when telemetry has not reported it.
+  final double? value;
+
+  /// What [value] is measured in — volts for the grid, amps for the panels.
+  /// The three sources no longer share a unit, so each carries its own.
+  final String unit;
 
   /// Charge level, shown as a pill on the expanded card. Only the battery has
   /// one; the others leave it null rather than render an empty badge.

@@ -3,16 +3,20 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import 'package:fluxa/constants/app_strings.dart';
 import 'package:fluxa/features/dashboard/dashboard_models.dart';
 import 'package:fluxa/theme/app_colors.dart';
 import 'package:fluxa/theme/app_text_styles.dart';
 import 'package:fluxa/utils/responsive_extension.dart';
 
 class StatusCard extends StatelessWidget {
-  const StatusCard({super.key, required this.status, this.kilowatts = 2.3});
+  const StatusCard({super.key, required this.status, this.kilowatts});
 
   final SystemStatus status;
-  final double kilowatts;
+
+  /// Null until telemetry answers, and if it never does. The card says so
+  /// rather than printing a figure the system did not report.
+  final double? kilowatts;
 
   @override
   Widget build(BuildContext context) {
@@ -98,7 +102,8 @@ class StatusCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            kilowatts.toStringAsFixed(1),
+                            kilowatts?.toStringAsFixed(1) ??
+                                AppStrings.noReading,
                             style: AppTextStyles.reading.copyWith(
                               fontSize: context.sp(34),
                               fontWeight: FontWeight.w900,

@@ -108,14 +108,21 @@ class Breaker {
   /// `mandatory` and whatever else the backend records.
   final String priorityType;
 
-  final bool isOn;
+  /// Null when the endpoint said nothing about it — the list endpoint carries
+  /// only what is stored, so live state arrives from `status/` instead. Never
+  /// read this as "off": a missing answer is not a state.
+  final bool? isOn;
 
-  /// Whether the device is reachable. An offline breaker still reports its
-  /// last known [isOn].
-  final bool online;
+  /// Whether the device is reachable, or null when unreported. An unreachable
+  /// breaker still reports its last known [isOn].
+  final bool? online;
 
   /// Live load. Null when the endpoint sent no reading.
   final double? powerW;
+
+  /// Whether this row knows the breaker's actual state, or is just the stored
+  /// record and needs a `status/` read behind it.
+  bool get hasLiveState => isOn != null;
 
   final Map<String, dynamic> raw;
 
@@ -137,8 +144,8 @@ class Breaker {
     // The backend spells this "priorty_type"; a fix there must not break here.
     priorityType:
         json['priorty_type'] as String? ?? json['priority_type'] as String? ?? '',
-    isOn: json['is_on'] as bool? ?? false,
-    online: json['online'] as bool? ?? false,
+    isOn: json['is_on'] as bool?,
+    online: json['online'] as bool?,
     powerW: _toDouble(json['power_W']),
     raw: json,
   );

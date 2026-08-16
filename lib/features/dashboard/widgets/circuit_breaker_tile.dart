@@ -84,7 +84,7 @@ class CircuitBreakerTile extends StatelessWidget {
             height: context.r(8),
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: breaker.isOn ? _priorityColour : Colors.white,
+              color: breaker.isOn == true ? _priorityColour : Colors.white,
               border: Border.all(color: AppColors.ink, width: 0.8),
             ),
           ),
@@ -140,19 +140,25 @@ class _StatePill extends StatelessWidget {
   final Breaker breaker;
   final bool busy;
 
-  /// An unreachable breaker is called out, because the state beside it is the
-  /// last one the backend heard rather than a live reading.
-  String get _label => !breaker.online
-      ? AppStrings.breakerOffline
-      : breaker.isOn
-      ? AppStrings.breakerOn
-      : AppStrings.breakerOff;
+  /// On or off is what the row is for, so it is shown whenever it is known —
+  /// including for an unreachable breaker, whose last known state still says
+  /// more than a placeholder does. Only a row the backend has not answered for
+  /// yet reads as unknown.
+  String get _label => switch (breaker.isOn) {
+    true => AppStrings.breakerOn,
+    false => AppStrings.breakerOff,
+    null => AppStrings.breakerUnknown,
+  };
 
-  Color get _colour => !breaker.online
+  /// Unreachable is carried by the colour instead: a live breaker is teal, one
+  /// the backend cannot reach is grey whichever way it is switched.
+  Color get _colour => breaker.online == false
       ? AppColors.shellMid
-      : breaker.isOn
+      : breaker.isOn == true
       ? AppColors.teal
       : AppColors.shell;
+
+  bool get _onWhite => breaker.isOn == true && breaker.online != false;
 
   @override
   Widget build(BuildContext context) {
@@ -178,9 +184,7 @@ class _StatePill extends StatelessWidget {
               _label,
               style: AppTextStyles.helper.copyWith(
                 fontSize: context.sp(10),
-                color: breaker.isOn && breaker.online
-                    ? Colors.white
-                    : AppColors.ink,
+                color: _onWhite ? Colors.white : AppColors.ink,
                 fontWeight: FontWeight.w700,
               ),
             ),

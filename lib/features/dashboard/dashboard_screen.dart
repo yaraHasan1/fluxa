@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 
 import 'package:fluxa/animations/animation_constants.dart';
 import 'package:fluxa/api/breakers_api.dart';
+import 'package:fluxa/api/telemetry_api.dart';
 import 'package:fluxa/components/gradient_background.dart';
 import 'package:fluxa/constants/app_assets.dart';
 import 'package:fluxa/constants/app_strings.dart';
@@ -32,7 +33,9 @@ class DashboardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<DashboardCubit>(
-      create: (_) => DashboardCubit(sl<BreakersApi>())..load(),
+      create: (_) => DashboardCubit(sl<BreakersApi>(), sl<TelemetryApi>())
+        ..refresh()
+        ..startAutoRefresh(),
       child: _DashboardView(userName: userName),
     );
   }
@@ -54,9 +57,18 @@ class _DashboardView extends StatelessWidget {
             SafeArea(
               child: BlocBuilder<DashboardCubit, DashboardState>(
                 builder: (BuildContext context, DashboardState state) {
-                  return SingleChildScrollView(
-                    padding: EdgeInsets.symmetric(horizontal: context.wp(0.05)),
-                    child: Column(
+                  // Pull to re-read, on top of the periodic one: a breaker
+                  // switched at the panel should not need a wait to show up.
+                  return RefreshIndicator(
+                    onRefresh: context.read<DashboardCubit>().refresh,
+                    color: AppColors.tealDark,
+                    backgroundColor: AppColors.backgroundTop,
+                    child: SingleChildScrollView(
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: context.wp(0.05),
+                      ),
+                      child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: <Widget>[
                         SizedBox(height: context.hp(0.02)),
@@ -67,7 +79,10 @@ class _DashboardView extends StatelessWidget {
 
                         _SectionTitle(AppStrings.currentConsumption),
                         SizedBox(height: context.r(8)),
-                        StatusCard(status: state.status),
+                        StatusCard(
+                          status: state.status,
+                          kilowatts: state.consumptionKw,
+                        ),
                         SizedBox(height: context.r(18)),
 
                         // Tapping anywhere in the section swaps the compact
@@ -101,8 +116,9 @@ class _DashboardView extends StatelessWidget {
                         SizedBox(height: context.r(8)),
                         _Breakers(state: state),
 
-                        SizedBox(height: context.hp(0.03)),
-                      ],
+                          SizedBox(height: context.hp(0.03)),
+                        ],
+                      ),
                     ),
                   );
                 },
@@ -285,7 +301,8 @@ class _ProductionList extends StatelessWidget {
           if (i > 0) SizedBox(height: context.r(10)),
           ProductionCard(
             kind: sources[i].kind,
-            kilowatts: sources[i].kilowatts,
+            value: sources[i].value,
+            unit: sources[i].unit,
             caption: sources[i].kind.productionCaption,
             badge: sources[i].chargePercent == null
                 ? null

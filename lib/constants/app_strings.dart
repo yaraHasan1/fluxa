@@ -58,21 +58,30 @@ abstract final class AppStrings {
 
   static const String currentConsumption = 'Current consumption';
   static const String currentProduction = 'Current production';
-  static const String productionCaptionElectricity =
-      'Current consumption is not\nfrom solar electricity';
-  static const String productionCaptionEnergy =
-      'Current consumption is not\nfrom solar energy';
+
+  /// Each source reads a different quantity off the inverter, so each names
+  /// the one it shows.
+  static const String solarCaption = 'Input current from the panels';
+  static const String gridCaption = 'Mains voltage at the inlet';
+  static const String batteryCaption = 'Battery voltage and charge';
+
+  static const String unitVolt = 'V';
+  static const String unitAmp = 'A';
   static const String energySources = 'Energy sources';
   static const String energySourcesCaption =
       'Current production for each source';
   static const String circuitBreakers = 'Circuit breakers';
 
-  /// State shown on a breaker row. On and off reuse the history copy.
-  static const String breakerOffline = 'n/a';
+  /// Shown on a row the backend has not reported a state for yet. On and off
+  /// reuse the history copy.
+  static const String breakerUnknown = '--';
 
   static const String breakerIsOn = 'Currently on';
   static const String breakerIsOff = 'Currently off';
-  static const String breakerIsOffline = 'Offline — last known state';
+  static const String breakerIsUnknown = 'State not reported';
+
+  /// Appended to the state line when the device is unreachable.
+  static const String breakerUnreachable = ' — offline, last known';
   static const String turnBreakerOff = 'Turn off';
   static const String turnBreakerOn = 'Turn on';
   static const String breakersEmpty = 'No breakers on this account yet.';

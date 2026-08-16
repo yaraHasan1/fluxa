@@ -49,17 +49,40 @@ class DashboardState extends Equatable {
     return null;
   }
 
-  /// TEMPORARY: the figures from the design frame, so the screen can be seen
-  /// before the telemetry service exists. Delete once readings are real.
+  /// Puts a telemetry sample on the screen, and is the only way to clear one —
+  /// [copyWith] cannot, since a null there means "leave it alone".
+  DashboardState withTelemetry({
+    required double? consumptionKw,
+    required List<EnergySource> sources,
+  }) => DashboardState(
+    status: status,
+    consumptionKw: consumptionKw,
+    sources: sources,
+    breakers: breakers,
+    sourcesExpanded: sourcesExpanded,
+    breakersStatus: breakersStatus,
+    error: error,
+    switching: switching,
+  );
+
+  /// The sections as they read before telemetry answers: the right three
+  /// sources, each with no figure yet.
   factory DashboardState.placeholder() => const DashboardState(
-    consumptionKw: 2.3,
     sources: <EnergySource>[
-      EnergySource(kind: EnergySourceKind.solar, kilowatts: 2.3),
-      EnergySource(kind: EnergySourceKind.wind, kilowatts: 2.3),
+      EnergySource(
+        kind: EnergySourceKind.solar,
+        value: null,
+        unit: AppStrings.unitAmp,
+      ),
+      EnergySource(
+        kind: EnergySourceKind.grid,
+        value: null,
+        unit: AppStrings.unitVolt,
+      ),
       EnergySource(
         kind: EnergySourceKind.battery,
-        kilowatts: 2.3,
-        chargePercent: 85,
+        value: null,
+        unit: AppStrings.unitVolt,
       ),
     ],
   );

@@ -116,7 +116,9 @@ class _BreakerControlSheet extends StatelessWidget {
                   busy: busy,
                   onPressed: () => context.read<DashboardCubit>().switchBreaker(
                     breaker.deviceId,
-                    on: !breaker.isOn,
+                    // An unknown state is treated as off, so the one offer is
+                    // to turn it on rather than no offer at all.
+                    on: breaker.isOn != true,
                   ),
                 ),
               ],
@@ -160,11 +162,14 @@ class _Header extends StatelessWidget {
                 ),
               ),
               Text(
-                breaker.online
-                    ? breaker.isOn
-                          ? AppStrings.breakerIsOn
-                          : AppStrings.breakerIsOff
-                    : AppStrings.breakerIsOffline,
+                switch (breaker.isOn) {
+                      true => AppStrings.breakerIsOn,
+                      false => AppStrings.breakerIsOff,
+                      null => AppStrings.breakerIsUnknown,
+                    } +
+                    (breaker.online == false
+                        ? AppStrings.breakerUnreachable
+                        : ''),
                 style: AppTextStyles.helper.copyWith(
                   fontSize: context.sp(11),
                   color: AppColors.tealDark,
@@ -201,14 +206,18 @@ class _SwitchAction extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool isOn = breaker.isOn == true;
+
     // Turning off is the consequential direction, so it carries the alarm
     // colour and turning back on carries the brand teal.
-    final Color colour = breaker.isOn ? AppColors.statusBad : AppColors.teal;
+    final Color colour = isOn ? AppColors.statusBad : AppColors.teal;
 
     return SizedBox(
       height: context.r(44),
       child: FilledButton(
-        onPressed: busy || !breaker.online ? null : onPressed,
+        // Only a device the backend calls unreachable is barred. An unreported
+        // state is not a reason to refuse the command.
+        onPressed: busy || breaker.online == false ? null : onPressed,
         style: FilledButton.styleFrom(
           backgroundColor: colour,
           disabledBackgroundColor: AppColors.shellMid,
@@ -227,9 +236,7 @@ class _SwitchAction extends StatelessWidget {
                 ),
               )
             : Text(
-                breaker.isOn
-                    ? AppStrings.turnBreakerOff
-                    : AppStrings.turnBreakerOn,
+                isOn ? AppStrings.turnBreakerOff : AppStrings.turnBreakerOn,
                 style: AppTextStyles.sectionTitle.copyWith(
                   fontSize: context.sp(13),
                   color: Colors.white,

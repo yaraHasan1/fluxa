@@ -76,14 +76,14 @@ class _SourceColumn extends StatelessWidget {
           strokeWidth: context.r(2),
           spans: <TextRun>[
             TextRun(
-              source.kilowatts.toStringAsFixed(1),
+              source.value?.toStringAsFixed(1) ?? AppStrings.noReading,
               AppTextStyles.reading.copyWith(
                 fontSize: context.sp(17),
                 color: source.kind.accent,
               ),
             ),
             TextRun(
-              AppStrings.kilowattSuffix,
+              source.unit,
               AppTextStyles.readingUnit.copyWith(fontSize: context.sp(11)),
             ),
           ],
