@@ -115,10 +115,15 @@ abstract final class AppStrings {
   static const String addOrganisationTitle = 'Add organization';
   static const String organisationNameLabel = 'name';
   static const String organisationPhoneLabel = 'phone';
-  static const String organisationLatitudeLabel = 'latitude';
-  static const String organisationLongitudeLabel = 'longitude';
+  static const String organisationLocationLabel = 'location';
+  static const String organisationLocationHint = 'Tap the map to drop a pin';
   static const String organisationMissingFields =
       'Enter a name and a phone number.';
+  static const String organisationMissingLocation =
+      'Tap the map to place the organisation.';
+
+  /// Required by the OpenStreetMap tile policy.
+  static const String mapAttribution = '© OpenStreetMap contributors';
   static const String submit = 'Submit';
   static const String sending = 'Sending…';
 

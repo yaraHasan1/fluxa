@@ -31,6 +31,8 @@ dependencies:
 
   # Declarative animation composition
   flutter_animate: ^4.5.2
+  flutter_map: ^8.3.1
+  latlong2: ^0.10.1
 
 dev_dependencies:
   flutter_test:

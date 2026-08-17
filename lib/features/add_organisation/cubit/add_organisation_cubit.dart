@@ -29,6 +29,13 @@ class AddOrganisationCubit extends Cubit<AddOrganisationState> {
       return;
     }
 
+    // The map is the only way to set these, so an empty pair means no pin was
+    // dropped — and that reads better than a rejection from the server.
+    if (latitude.trim().isEmpty || longitude.trim().isEmpty) {
+      emit(state.failed(AppStrings.organisationMissingLocation));
+      return;
+    }
+
     emit(state.copyWith(status: RequestStatus.loading, clearError: true));
 
     try {

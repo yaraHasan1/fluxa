@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:latlong2/latlong.dart';
 
 import 'package:fluxa/api/organisations_api.dart';
 import 'package:fluxa/components/app_text_field.dart';
+import 'package:fluxa/components/location_picker.dart';
 import 'package:fluxa/components/panel_dialog.dart';
 import 'package:fluxa/constants/app_strings.dart';
 import 'package:fluxa/features/add_organisation/cubit/add_organisation_cubit.dart';
@@ -36,24 +38,31 @@ class _AddOrganisationView extends StatefulWidget {
 class _AddOrganisationViewState extends State<_AddOrganisationView> {
   final TextEditingController _name = TextEditingController();
   final TextEditingController _phone = TextEditingController();
-  final TextEditingController _latitude = TextEditingController();
-  final TextEditingController _longitude = TextEditingController();
+
+  /// Null until the map is tapped.
+  LatLng? _point;
 
   @override
   void dispose() {
     _name.dispose();
     _phone.dispose();
-    _latitude.dispose();
-    _longitude.dispose();
     super.dispose();
   }
 
-  void _submit() => context.read<AddOrganisationCubit>().submit(
-    name: _name.text,
-    phone: _phone.text,
-    latitude: _latitude.text,
-    longitude: _longitude.text,
-  );
+  /// Six decimals is roughly a tenth of a metre — past anything a tap on a
+  /// map can mean.
+  static String _coordinate(double value) => value.toStringAsFixed(6);
+
+  void _submit() {
+    final LatLng? point = _point;
+
+    context.read<AddOrganisationCubit>().submit(
+      name: _name.text,
+      phone: _phone.text,
+      latitude: point == null ? '' : _coordinate(point.latitude),
+      longitude: point == null ? '' : _coordinate(point.longitude),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -91,34 +100,19 @@ class _AddOrganisationViewState extends State<_AddOrganisationView> {
               ),
               SizedBox(height: context.r(14)),
 
-              // Side by side: they are one coordinate, and the panel is short.
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Expanded(
-                    child: AppTextField(
-                      label: AppStrings.organisationLatitudeLabel,
-                      controller: _latitude,
-                      keyboardType: const TextInputType.numberWithOptions(
-                        decimal: true,
-                        signed: true,
-                      ),
-                      textInputAction: TextInputAction.next,
-                    ),
-                  ),
-                  SizedBox(width: context.r(12)),
-                  Expanded(
-                    child: AppTextField(
-                      label: AppStrings.organisationLongitudeLabel,
-                      controller: _longitude,
-                      keyboardType: const TextInputType.numberWithOptions(
-                        decimal: true,
-                        signed: true,
-                      ),
-                      textInputAction: TextInputAction.done,
-                    ),
-                  ),
-                ],
+              // One coordinate, picked rather than typed: the endpoint wants
+              // latitude and longitude, and nobody knows their own to six
+              // decimal places.
+              Text(
+                AppStrings.organisationLocationLabel,
+                style: AppTextStyles.fieldLabel.copyWith(
+                  fontSize: context.sp(15),
+                ),
+              ),
+              SizedBox(height: context.r(7)),
+              LocationPicker(
+                point: _point,
+                onPicked: (LatLng picked) => setState(() => _point = picked),
               ),
 
               if (state.error != null) ...<Widget>[
