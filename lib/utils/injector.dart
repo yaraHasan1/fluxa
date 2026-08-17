@@ -4,6 +4,7 @@ import 'package:fluxa/api/api_client.dart';
 import 'package:fluxa/api/auth_api.dart';
 import 'package:fluxa/api/token_store.dart';
 import 'package:fluxa/api/breakers_api.dart';
+import 'package:fluxa/api/organisations_api.dart';
 import 'package:fluxa/api/telemetry_api.dart';
 
 /// Global service locator.
@@ -26,5 +27,8 @@ Future<void> configureDependencies() async {
     )
     ..registerLazySingleton<BreakersApi>(() => BreakersApi(sl<ApiClient>()))
     ..registerLazySingleton<TelemetryApi>(() => TelemetryApi(sl<ApiClient>()))
+    ..registerLazySingleton<OrganisationsApi>(
+      () => OrganisationsApi(sl<ApiClient>()),
+    )
     ..registerLazySingleton<AuthApi>(() => AuthApi(sl<ApiClient>()));
 }

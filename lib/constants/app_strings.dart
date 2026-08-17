@@ -114,8 +114,13 @@ abstract final class AppStrings {
 
   static const String addOrganisationTitle = 'Add organization';
   static const String organisationNameLabel = 'name';
-  static const String organisationSizeLabel = 'size';
+  static const String organisationPhoneLabel = 'phone';
+  static const String organisationLatitudeLabel = 'latitude';
+  static const String organisationLongitudeLabel = 'longitude';
+  static const String organisationMissingFields =
+      'Enter a name and a phone number.';
   static const String submit = 'Submit';
+  static const String sending = 'Sending…';
 
   static const String organisationsListTitle = 'List of organizations';
 
